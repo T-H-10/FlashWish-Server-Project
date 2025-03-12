@@ -1,0 +1,19 @@
+﻿using FlashWish.Core.DTOs;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace FlashWish.Core.IServices
+{
+    public interface IGreetingMessageService
+    {
+        Task<IEnumerable<GreetingMessageDTO>> GetAllMessagesAsync();
+        Task<GreetingMessageDTO?> GetGreetingMessageByIdAsync(int id);
+        Task<GreetingMessageDTO> AddGreetingMessageAsync(GreetingMessageDTO message);
+        Task<GreetingMessageDTO?> UpdateGreetingMessageAsync(int id, GreetingMessageDTO message);
+        Task<bool> DeleteGreetingMessageAsync(int id);
+
+    }
+}
