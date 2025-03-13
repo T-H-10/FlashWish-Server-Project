@@ -15,7 +15,7 @@ namespace FlashWish.Core.IServices
         Task<UserDTO?> UpdateUserAsync(int id, UserDTO user);
         Task<bool> DeleteUserAsync(int id);
         Task<UserDTO?> GetUserByEmailAsync(string email);
-        Task<string> CreateUserAsync(string email, string password);
+        //Task<string> CreateUserAsync(string email, string password);
 
     }
 }
