@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FlashWish.Data\FlashWish.Data.csproj" />
+    <ProjectReference Include="..\FlashWish.Service\FlashWish.Service.csproj" />
   </ItemGroup>
 
 </Project>
