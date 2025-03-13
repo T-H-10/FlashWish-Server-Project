@@ -13,4 +13,3 @@ namespace FlashWish.Core.IRepositories
         //Task<string?> CreateUserAsync(string email, string password);
     }
 }
-}
