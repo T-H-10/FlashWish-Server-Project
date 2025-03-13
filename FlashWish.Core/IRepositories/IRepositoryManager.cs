@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FlashWish.Core.IRepository
+namespace FlashWish.Core.IRepositories
 {
     public interface IRepositoryManager
     {
