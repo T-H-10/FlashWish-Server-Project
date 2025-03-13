@@ -62,6 +62,7 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("EditorOrAdmin", policy => policy.RequireRole("Editor", "Admin"));
     //options.AddPolicy("Viewer", policy => policy.RequireRole("Viewer", "Admin", "Editor"));
 });
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

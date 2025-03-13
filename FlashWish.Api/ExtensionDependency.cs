@@ -16,11 +16,14 @@ namespace FlashWish.Api
             services.AddScoped<IGreetingMessageService, GreetingMessageService>();
             services.AddScoped<IGreetingCardService, GreetingCardService>();
             services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<IAuthService, AuthService>();
 
 
             services.AddScoped<IRepositoryManager, RepositoryManager>();
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped(typeof(IUserRepository), typeof(UserRepository));
+            services.AddScoped(typeof(ITemplateRepository), typeof(TemplateRepository));
+            services.AddScoped(typeof(ICategoryRepository),typeof(CategoryRepository));
 
             services.AddControllers();
             services.AddSingleton<DataContext>();

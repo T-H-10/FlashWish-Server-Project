@@ -23,7 +23,7 @@ namespace FlashWish.Api.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<LoginResultDTO>> Register([FromBody] UserPostModel userPostModel)
+        public async Task<ActionResult<LoginResultDTO>> RegisterAsync([FromBody] UserPostModel userPostModel)
         {
             if (string.IsNullOrWhiteSpace(userPostModel.Email) || string.IsNullOrWhiteSpace(userPostModel.Password))
             {
