@@ -22,16 +22,17 @@ namespace FlashWish.Core.Entities
         [Required(ErrorMessage = "Email is required.")]
         [EmailAddress(ErrorMessage = "Invalid email format.")]
         [StringLength(100, ErrorMessage = "Email must be unique and less than 100 characters.")]
-        //[Index(IsUnique = true)]
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Password is required.")]
         [StringLength(128, ErrorMessage = "Password must be at least 6 characters long.", MinimumLength = 6)]
         public string PasswordHash { get; set; }
+
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime UpdatedAt { get; set; } = DateTime.Now;
-        public List<Role> Roles { get; set; } = new List<Role>();
-        public List<GreetingCard> GreetingCards { get; set; } = new List<GreetingCard>();
+        //[ForeignKey(Role)]
+        public ICollection<Role> Roles { get; set; } = new List<Role>();
+        public ICollection<GreetingCard> GreetingCards { get; set; } = new List<GreetingCard>();
 
     }
 }

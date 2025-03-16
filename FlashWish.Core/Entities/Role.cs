@@ -14,14 +14,16 @@ namespace FlashWish.Core.Entities
     {
         [Key]
         public int Id { get; set; }
+
         [Required(ErrorMessage = "RoleName is required.")]
         [StringLength(50)]
         public string RoleName { get; set; }
+
         public string RoleDescription { get; set; } = string.Empty;
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime UpdatedAt { get; set; } = DateTime.Now;
-        List<Permission> Permissions { get; set; } = new List<Permission>();
-        List<User> Users { get; set; } = new List<User>();
+        public ICollection<Permission> Permissions { get; set; } = new List<Permission>();
+        public ICollection<User> Users { get; set; } = new List<User>();
 
     }
 }

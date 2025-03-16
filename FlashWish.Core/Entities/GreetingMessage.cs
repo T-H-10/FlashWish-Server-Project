@@ -19,9 +19,12 @@ namespace FlashWish.Core.Entities
 
         [StringLength(100, ErrorMessage = "Title cannot exceed 100 characters.")]
         public string Title { get; set; }
+
         [ForeignKey(nameof(User))]
-        public string Content { get; set; }
         public int UserID { get; set; } = 0;//---
+
+        public string Content { get; set; }
+
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime UpdatedAt { get; set; } = DateTime.Now;
 

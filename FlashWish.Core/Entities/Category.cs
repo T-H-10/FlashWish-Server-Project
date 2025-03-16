@@ -17,8 +17,8 @@ namespace FlashWish.Core.Entities
         [StringLength(80, MinimumLength = 3, ErrorMessage = "Category name must be between 3 and 80 characters.")]
         public string CategoryName { get; set; }
 
-        public List<Template> Templates { get; set; } = new List<Template>();
-        public List<GreetingMessage> GreetingMessages { get; set; } = new List<GreetingMessage>();
+        public ICollection<Template> Templates { get; set; } = new List<Template>();
+        public ICollection<GreetingMessage> GreetingMessages { get; set; } = new List<GreetingMessage>();
 
     }
 }

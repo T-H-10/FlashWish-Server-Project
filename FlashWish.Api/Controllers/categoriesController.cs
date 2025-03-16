@@ -11,12 +11,12 @@ namespace FlashWish.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class categoriesController : ControllerBase
+    public class CategoriesController : ControllerBase
     {
         private readonly ICategoryService _categoryService;
         private readonly IMapper _mapper;
 
-        public categoriesController(ICategoryService categoryService, IMapper mapper)
+        public CategoriesController(ICategoryService categoryService, IMapper mapper)
         {
             _categoryService = categoryService;
             _mapper = mapper;
@@ -51,7 +51,7 @@ namespace FlashWish.Api.Controllers
 
         // POST api/<categoriesController>
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<ActionResult<CategoryDTO>> PostAsync([FromBody] CategoryPostModel category)
         {
             if (category == null)
@@ -73,7 +73,7 @@ namespace FlashWish.Api.Controllers
 
         // PUT api/<categoriesController>/5
         [HttpPut("{id}")]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<ActionResult<CategoryDTO>> PutAsync(int id, [FromBody] CategoryPostModel category)
         {
             if (category == null)
@@ -91,7 +91,7 @@ namespace FlashWish.Api.Controllers
 
         // DELETE api/<categoriesController>/5
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<ActionResult> Delete(int id)
         {
             var isDeleted = await _categoryService.DeleteCategoryAsync(id);

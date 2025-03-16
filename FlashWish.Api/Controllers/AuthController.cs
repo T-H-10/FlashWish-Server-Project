@@ -21,6 +21,20 @@ namespace FlashWish.Api.Controllers
             _authService = authService;
             _mapper = mapper;
         }
+        [HttpPost("login")]
+        public async Task<ActionResult<LoginResultDTO>> LoginAsync([FromBody] LoginModel loginModel)
+        {
+            if (string.IsNullOrWhiteSpace(loginModel.Email) || string.IsNullOrWhiteSpace(loginModel.Password))
+            {
+                return BadRequest("Email and password are required.");//400
+            }
+            var user = await _authService.LoginAsync(loginModel.Email, loginModel.Password);
+            if (user == null)
+            {
+                return Unauthorized();//401
+            }
+            return Ok(user);//200
+        }
 
         [HttpPost("register")]
         public async Task<ActionResult<LoginResultDTO>> RegisterAsync([FromBody] UserPostModel userPostModel)
@@ -39,19 +53,6 @@ namespace FlashWish.Api.Controllers
             return Ok(userRegistered);
         }
 
-        [HttpPost("login")]
-        public async Task<ActionResult<LoginResultDTO>> LoginAsync([FromBody] LoginModel loginModel)
-        {
-            if (string.IsNullOrWhiteSpace(loginModel.Email) || string.IsNullOrWhiteSpace(loginModel.Password))
-            {
-                return BadRequest("Email and password are required.");//400
-            }
-            var user = await _authService.LoginAsync(loginModel.Email, loginModel.Password);
-            if (user == null)
-            {
-                return Unauthorized();//401
-            }
-            return Ok(user);//200
-        }
+        
     }
 }

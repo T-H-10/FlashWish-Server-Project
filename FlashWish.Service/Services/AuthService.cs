@@ -5,13 +5,9 @@ using FlashWish.Core.IRepositories;
 using FlashWish.Core.IServices;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace FlashWish.Service.Services
 {
@@ -80,7 +76,7 @@ namespace FlashWish.Service.Services
         public async Task<LoginResultDTO> RegisterAsync(UserDTO userDto)
         {
             var currentUser = await _repositoryManager.Users.GetByEmailAsync(userDto.Email);
-            if (currentUser == null)
+            if (currentUser != null)
             {
                 return null;
             }

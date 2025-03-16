@@ -1,4 +1,7 @@
 ﻿using AutoMapper;
+using CloudinaryDotNet;
+using CloudinaryDotNet.Actions;
+using DotNetEnv;
 using FlashWish.Core.DTOs;
 using FlashWish.Core.Entities;
 using FlashWish.Core.IRepositories;
@@ -11,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace FlashWish.Service.Services
 {
-    public class TemplateService:ITemplateService
+    public class TemplateService : ITemplateService
     {
         private readonly IRepositoryManager _repositoryManager;
         private readonly IMapper _mapper;
@@ -23,13 +26,19 @@ namespace FlashWish.Service.Services
         public async Task<TemplateDTO> AddTemplateAsync(TemplateDTO template)
         {
             var templateToAdd = _mapper.Map<Template>(template);
-            if (template != null)
+            if (templateToAdd == null || templateToAdd.ImageURL == null)
             {
-                await _repositoryManager.Templates.AddAsync(templateToAdd);
-                await _repositoryManager.SaveAsync();
-                return _mapper.Map<TemplateDTO>(templateToAdd);
+                return null;
             }
-            return null;
+            var url = await UploadToCloud(templateToAdd.ImageURL,templateToAdd.TemplateName);
+            if(url == null) {
+                return null;
+            }
+            templateToAdd.ImageURL = url.ToString();
+            await _repositoryManager.Templates.AddAsync(templateToAdd);
+            await _repositoryManager.SaveAsync();
+            return _mapper.Map<TemplateDTO>(templateToAdd);
+
         }
 
         public async Task<bool> DeleteTemplateAsync(int id)
@@ -71,6 +80,47 @@ namespace FlashWish.Service.Services
             await _repositoryManager.Templates.UpdateAsync(id, templateToUpdate);
             await _repositoryManager.SaveAsync();
             return _mapper.Map<TemplateDTO?>(templateToUpdate);
+
+        }
+
+        private async Task<Uri> UploadToCloud(string path, string name)
+        {
+            // טען את קובץ ה-.env
+            Env.Load();
+            Console.WriteLine(Env.GetString("CLOUDINARY_CLOUD_NAME"));
+            // קבל את הערכים
+            var cloudName = Env.GetString("CLOUDINARY_CLOUD_NAME");
+            var apiKey = Env.GetString("CLOUDINARY_API_KEY");
+            var apiSecret = Env.GetString("CLOUDINARY_API_SECRET");
+            Console.WriteLine("cloudName "+ cloudName);
+            Console.WriteLine("apiKey " + apiKey);
+            Console.WriteLine("apiSecret " + apiSecret);
+            // הגדרות עם הנתונים שלך (החלף עם הערכים האמיתיים שלך)
+            var account = new Account(
+                cloudName,      // שנה לערך מה-Cloudinary Dashboard
+                apiKey,         // שנה לערך מה-Cloudinary Dashboard
+                apiSecret       // שנה לערך מה-Cloudinary Dashboard
+            );
+
+            var cloudinary = new Cloudinary(account);
+            cloudinary.Api.Secure = true; // שימוש ב-HTTPS
+            try
+            {
+                var uploadParams = new ImageUploadParams()
+                {
+                    File = new FileDescription(path),
+                    PublicId = name,  // שם הקובץ בענן
+                    Overwrite = false,  // מחיקת קובץ קודם עם אותו שם
+                    Transformation = new Transformation().Width(500).Height(500).Crop("limit") // שינוי גודל
+                };
+                var uploadResult = await cloudinary.UploadAsync(uploadParams);
+                return uploadResult.SecureUrl;
+            }
+            catch (Exception)
+            {
+                //Console.WriteLine(ex.Message);
+                return null;
+            }
 
         }
     }
