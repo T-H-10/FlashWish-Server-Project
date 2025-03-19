@@ -4,6 +4,7 @@ using FlashWish.Core;
 using FlashWish.Data.Repositories;
 using FlashWish.Data;
 using FlashWish.Service.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace FlashWish.Api
 {
@@ -26,8 +27,8 @@ namespace FlashWish.Api
             services.AddScoped(typeof(ICategoryRepository),typeof(CategoryRepository));
 
             services.AddControllers();
-            services.AddSingleton<DataContext>();
-
+            services.AddScoped<DataContext>();
+            //services.AddDbContext<DataContext>(options => options.UseSqlServer(connectionString), ServiceLifetime.Scoped);
             services.AddAutoMapper(typeof(MappingProfile), typeof(MappingPostProfile));
             //services.AddDbContext<DataContext>(option =>
             //{

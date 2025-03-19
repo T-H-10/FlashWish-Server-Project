@@ -1,4 +1,5 @@
 ﻿using FlashWish.Core.DTOs;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace FlashWish.Core.IServices
     {
         Task<IEnumerable<TemplateDTO>> GetAllTemplatesAsync();
         Task<TemplateDTO?> GetTemplateByIdAsync(int id);
-        Task<TemplateDTO> AddTemplateAsync(TemplateDTO template);
+        Task<TemplateDTO> AddTemplateAsync(TemplateDTO template, IFormFile imageFile);
         Task<TemplateDTO?> UpdateTemplateAsync(int id, TemplateDTO template);
         Task<bool> DeleteTemplateAsync(int id);
 

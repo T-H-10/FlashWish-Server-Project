@@ -48,7 +48,7 @@ namespace FlashWish.Api.Controllers
             var userRegistered = await _authService.RegisterAsync(userDto);
             if (userRegistered == null)
             {
-                return BadRequest("User already exist.");
+                return Conflict("User already exist."); //409
             }
             return Ok(userRegistered);
         }

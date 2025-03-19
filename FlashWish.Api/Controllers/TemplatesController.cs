@@ -55,7 +55,7 @@ namespace FlashWish.Api.Controllers
         //[Authorize(Roles = "EditorOrAdmin")]
         public async Task<ActionResult<TemplateDTO>> PostAsync([FromBody] TemplatePostModel template)
         {
-            if (template == null)
+            if (template == null || template.ImageFile == null || template.ImageFile.Length <= 0)
             {
                 return BadRequest();//400
             }
@@ -64,7 +64,7 @@ namespace FlashWish.Api.Controllers
             {
                 return NotFound();//400
             }
-            var createdTemplate = await _templateService.AddTemplateAsync(templateDTO);
+            var createdTemplate = await _templateService.AddTemplateAsync(templateDTO, template.ImageFile);
             if (createdTemplate == null)
             {
                 return BadRequest("You should give a uniqe name to your template. maybe this is your problam");//400

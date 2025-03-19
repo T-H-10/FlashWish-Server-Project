@@ -6,6 +6,7 @@ using FlashWish.Core.DTOs;
 using FlashWish.Core.Entities;
 using FlashWish.Core.IRepositories;
 using FlashWish.Core.IServices;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,14 +24,14 @@ namespace FlashWish.Service.Services
             _repositoryManager = repositoryManager;
             _mapper = mapper;
         }
-        public async Task<TemplateDTO> AddTemplateAsync(TemplateDTO template)
+        public async Task<TemplateDTO> AddTemplateAsync(TemplateDTO template, IFormFile imageFile)
         {
             var templateToAdd = _mapper.Map<Template>(template);
-            if (templateToAdd == null || templateToAdd.ImageURL == null)
+            if (templateToAdd == null || imageFile == null)
             {
                 return null;
             }
-            var url = await UploadToCloud(templateToAdd.ImageURL,templateToAdd.TemplateName);
+            var url = await UploadToCloud(imageFile);
             if(url == null) {
                 return null;
             }
@@ -83,7 +84,7 @@ namespace FlashWish.Service.Services
 
         }
 
-        private async Task<Uri> UploadToCloud(string path, string name)
+        private async Task<Uri> UploadToCloud(IFormFile imageFile)
         {
             // טען את קובץ ה-.env
             Env.Load();
@@ -92,9 +93,7 @@ namespace FlashWish.Service.Services
             var cloudName = Env.GetString("CLOUDINARY_CLOUD_NAME");
             var apiKey = Env.GetString("CLOUDINARY_API_KEY");
             var apiSecret = Env.GetString("CLOUDINARY_API_SECRET");
-            Console.WriteLine("cloudName "+ cloudName);
-            Console.WriteLine("apiKey " + apiKey);
-            Console.WriteLine("apiSecret " + apiSecret);
+
             // הגדרות עם הנתונים שלך (החלף עם הערכים האמיתיים שלך)
             var account = new Account(
                 cloudName,      // שנה לערך מה-Cloudinary Dashboard
@@ -106,15 +105,21 @@ namespace FlashWish.Service.Services
             cloudinary.Api.Secure = true; // שימוש ב-HTTPS
             try
             {
-                var uploadParams = new ImageUploadParams()
+                using (var stream = new MemoryStream())
                 {
-                    File = new FileDescription(path),
-                    PublicId = name,  // שם הקובץ בענן
-                    Overwrite = false,  // מחיקת קובץ קודם עם אותו שם
-                    Transformation = new Transformation().Width(500).Height(500).Crop("limit") // שינוי גודל
-                };
-                var uploadResult = await cloudinary.UploadAsync(uploadParams);
-                return uploadResult.SecureUrl;
+                    await imageFile.CopyToAsync(stream); // העתקת הקובץ ל-MemoryStream
+                    stream.Position = 0; // החזרת המצביע להתחלה
+
+                    var uploadParams = new ImageUploadParams()
+                    {
+                        File = new FileDescription(imageFile.FileName, stream),
+                        PublicId = imageFile.FileName,  // שם הקובץ בענן
+                        Overwrite = false,  // מחיקת קובץ קודם עם אותו שם
+                        Transformation = new Transformation().Width(500).Height(500).Crop("limit") // שינוי גודל
+                    };
+                    var uploadResult = await cloudinary.UploadAsync(uploadParams);
+                    return uploadResult.SecureUrl;
+                }
             }
             catch (Exception)
             {

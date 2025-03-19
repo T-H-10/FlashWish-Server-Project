@@ -59,9 +59,10 @@ namespace FlashWish.Service.Services
 
         public async Task<LoginResultDTO> LoginAsync(string email, string password)
         {
-            if (await ValidateUserAsync(email, password))
+            //if (await ValidateUserAsync(email, password))
+            var user = await _repositoryManager.Users.GetByEmailAsync(email);
+            if (user != null && BCrypt.Net.BCrypt.Verify(password, user.PasswordHash))
             {
-                var user = await _repositoryManager.Users.GetByEmailAsync(email);
                 var token = GenerateJwtToken(user);
                 var userDTO = _mapper.Map<UserDTO>(user);
                 return new LoginResultDTO
