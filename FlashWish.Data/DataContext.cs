@@ -18,8 +18,11 @@ namespace FlashWish.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=(localdb)\MSSQLLocalDB;Database=FlashWish1_db;TrustServerCertificate=True;Trusted_Connection=True;");
+            optionsBuilder.UseSqlServer(@"postgresql://flashwish_user:6vrenHaV774iUv9gRjPIBlVH8zKkNXb5@dpg-cvdttbfnoe9s73eikm10-a:5432/flashwish_db");
             //base.OnConfiguring(optionsBuilder);//----
+
+            //local connenction string:
+            //"Server=(localdb)\MSSQLLocalDB;Database=FlashWish1_db;TrustServerCertificate=True;Trusted_Connection=True;"
         }
     }
 }
