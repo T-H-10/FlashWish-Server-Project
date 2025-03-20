@@ -9,5 +9,6 @@ namespace FlashWish.Core.IRepositories
 {
     public interface ICategoryRepository:IRepository<Category>
     {
+        Task<Category> GetByNameAsync(string categoryName);
     }
 }

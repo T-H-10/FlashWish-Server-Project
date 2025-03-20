@@ -6,7 +6,7 @@ using FlashWish.Core.IServices;
 
 namespace FlashWish.Service.Services
 {
-    public class CategoryService: ICategoryService
+    public class CategoryService : ICategoryService
     {
         private readonly IRepositoryManager _repositoryManager;
         private readonly IMapper _mapper;
@@ -18,14 +18,20 @@ namespace FlashWish.Service.Services
 
         public async Task<CategoryDTO> AddCategoryAsync(CategoryDTO category)
         {
-            var categoryToAdd = _mapper.Map<Category>(category);
-            if (category != null)
+            if (category == null || string.IsNullOrWhiteSpace(category.CategoryName))
             {
-                await _repositoryManager.Categories.AddAsync(categoryToAdd);
-                await _repositoryManager.SaveAsync();
-                return _mapper.Map<CategoryDTO>(categoryToAdd);
+                return null;
             }
-            return null;
+            var existingCategory = await _repositoryManager.Categories.GetByNameAsync(category.CategoryName);
+            if (existingCategory != null)
+            {
+                return null;
+            }
+            var categoryToAdd = _mapper.Map<Category>(category);
+            await _repositoryManager.Categories.AddAsync(categoryToAdd);
+            await _repositoryManager.SaveAsync();
+            return _mapper.Map<CategoryDTO>(categoryToAdd);
+
         }
 
         public async Task<bool> DeleteCategoryAsync(int id)
