@@ -53,7 +53,7 @@ namespace FlashWish.Api.Controllers
         // POST api/<TemplatesController>
         [HttpPost]
         //[Authorize(Roles = "EditorOrAdmin")]
-        public async Task<ActionResult<TemplateDTO>> PostAsync([FromBody] TemplatePostModel template)
+        public async Task<ActionResult<TemplateDTO>> PostAsync([FromForm] TemplatePostModel template)
         {
             if (template == null || template.ImageFile == null || template.ImageFile.Length <= 0)
             {
@@ -62,7 +62,7 @@ namespace FlashWish.Api.Controllers
             var templateDTO = _mapper.Map<TemplateDTO>(template);
             if (templateDTO == null)
             {
-                return NotFound();//400
+                return NotFound();//404
             }
             var createdTemplate = await _templateService.AddTemplateAsync(templateDTO, template.ImageFile);
             if (createdTemplate == null)
