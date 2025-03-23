@@ -97,14 +97,14 @@ namespace FlashWish.Api.Controllers
 
         // DELETE api/<TemplatesController>/5
         [HttpDelete("{id}")]
-        [Authorize(Roles = "EditorOrAdmin")]
+        //[Authorize(Roles = "EditorOrAdmin")]
         public async Task<ActionResult> DeleteAsync(int id)
         {
-            var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            if (currentUserId != id.ToString() && !User.IsInRole("Admin"))
-            {
-                return Forbid(); // 403 - אין הרשאה
-            }
+            //var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            //if (currentUserId != id.ToString() && !User.IsInRole("Admin"))
+            //{
+            //    return Forbid(); // 403 - אין הרשאה
+            //}
             var isDeleted = await _templateService.DeleteTemplateAsync(id);
             if (!isDeleted)
             {

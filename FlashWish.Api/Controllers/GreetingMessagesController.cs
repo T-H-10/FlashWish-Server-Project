@@ -51,18 +51,18 @@ namespace FlashWish.Api.Controllers
 
         // POST api/<GreetingMessagesController>
         [HttpPost]
-        [Authorize(Roles = "EditorOrAdmin")]
+        //[Authorize(Roles = "EditorOrAdmin")]
         public async Task<ActionResult<GreetingMessageDTO>> PostAsync([FromBody] GreetingMessagePostModel message)
         {
             if (message == null)
             {
                 return BadRequest();//400
             }
-            var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            if (currentUserId != message.UserID.ToString() && !User.IsInRole("Admin"))
-            {
-                return Forbid(); // 403 - אין הרשאה
-            }
+            //var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            //if (currentUserId != message.UserID.ToString() && !User.IsInRole("Admin"))
+            //{
+            //    return Forbid(); // 403 - אין הרשאה
+            //}
             var greetingDTO = _mapper.Map<GreetingMessageDTO>(message);
             var createdGreeting = await _greetingMessageService.AddGreetingMessageAsync(greetingDTO);
             if (greetingDTO == null)

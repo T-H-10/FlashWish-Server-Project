@@ -23,7 +23,7 @@ namespace FlashWish.Api.Controllers
         }
         // GET: api/<UsersController>
         [HttpGet]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<ActionResult<UserDTO>> GetAsync()
         {
             var users = await _userService.GetAllUsersAsync();

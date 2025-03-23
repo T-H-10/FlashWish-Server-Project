@@ -17,7 +17,7 @@ namespace FlashWish.Core.Entities
         [ForeignKey(nameof(Category))]
         public int CategoryID { get; set; }
 
-        [StringLength(100, ErrorMessage = "Title cannot exceed 100 characters.")]
+        [StringLength(300, ErrorMessage = "Title cannot exceed 300 characters.")]
         public string Title { get; set; }
 
         [ForeignKey(nameof(User))]
@@ -25,6 +25,7 @@ namespace FlashWish.Core.Entities
 
         public string Content { get; set; }
 
+        public string Signature { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime UpdatedAt { get; set; } = DateTime.Now;
 
