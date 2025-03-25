@@ -39,12 +39,12 @@ namespace FlashWish.Service.Services
             {
                 claims.Add(new Claim(ClaimTypes.Role, role.RoleName));
             }
-
+            var tokenExpirationHours = int.Parse(_configuration["Jwt:TokenExpirationHours"] ?? "5");
             var token = new JwtSecurityToken(
                 issuer: _configuration["Jwt:Issuer"],
                 audience: _configuration["Jwt:Audience"],
                 claims: claims,
-                expires: DateTime.UtcNow.AddHours(5),
+                expires: DateTime.UtcNow.AddHours(tokenExpirationHours),
                 signingCredentials: credentials
             );
 
@@ -61,17 +61,17 @@ namespace FlashWish.Service.Services
         {
             //if (await ValidateUserAsync(email, password))
             var user = await _repositoryManager.Users.GetByEmailAsync(email);
-            if (user != null && BCrypt.Net.BCrypt.Verify(password, user.PasswordHash))
+            if (user == null || !BCrypt.Net.BCrypt.Verify(password, user.PasswordHash))
             {
-                var token = GenerateJwtToken(user);
-                var userDTO = _mapper.Map<UserDTO>(user);
-                return new LoginResultDTO
-                {
-                    User = userDTO,
-                    Token = token
-                };
+                return null;
             }
-            return null;
+            var token = GenerateJwtToken(user);
+            var userDTO = _mapper.Map<UserDTO>(user);
+            return new LoginResultDTO
+            {
+                User = userDTO,
+                Token = token
+            };
         }
 
         public async Task<LoginResultDTO> RegisterAsync(UserDTO userDto)
@@ -91,7 +91,6 @@ namespace FlashWish.Service.Services
                 UpdatedAt = DateTime.UtcNow,
                 Roles = new List<Role>() { new Role { RoleName = "Editor" } }
             };
-
             var result = await _repositoryManager.Users.AddAsync(user);
             if (result == null)
             {

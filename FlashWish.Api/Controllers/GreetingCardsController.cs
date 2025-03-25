@@ -69,7 +69,7 @@ namespace FlashWish.Api.Controllers
         }
         // PUT api/<GreetingCardsController>/5
         [HttpPut("{id}")]
-        [Authorize(Roles = "EditorOrAdmin")]
+        //[Authorize(Roles = "EditorOrAdmin")]
         public async Task<ActionResult<GreetingCardDTO>> PutAsync(int id, [FromBody] GreetingCardPostModel greetingCard)
         {
             if (greetingCard == null)
