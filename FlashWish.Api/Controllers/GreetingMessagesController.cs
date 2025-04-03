@@ -97,7 +97,7 @@ namespace FlashWish.Api.Controllers
 
         // DELETE api/<GreetingMessagesController>/5
         [HttpDelete("{id}")]
-        [Authorize(Roles = "EditorOrAdmin")]
+        //[Authorize(Roles = "EditorOrAdmin")]
         public async Task<ActionResult> DeleteAsync(int id)
         {
             var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;

@@ -60,7 +60,10 @@ namespace FlashWish.Service.Services
 
         public async Task<GreetingCardDTO?> GetGreetingCardByIdAsync(int id)
         {
-            var greetingCard = _repositoryManager.GreetingCards.GetByIdAsync(id);
+            var greetingCard = await _repositoryManager.GreetingCards.GetByIdAsync(id);
+            if(greetingCard == null) { return null; }
+            Console.WriteLine(greetingCard);
+            //Console.WriteLine(typeof(greetingCard));
             return _mapper.Map<GreetingCardDTO>(greetingCard);
         }
 

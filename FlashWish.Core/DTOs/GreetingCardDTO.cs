@@ -13,6 +13,7 @@ namespace FlashWish.Core.DTOs
         public int TemplateID { get; set; }
         public int TextID { get; set; }
         public int CategoryID { get; set; }
+        public string CanvasStyle { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
 
