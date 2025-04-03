@@ -69,5 +69,9 @@ namespace FlashWish.Data.Repositories
             _dbSet.Remove(entity);
             await _context.SaveChangesAsync();
         }
+        public async Task<int> GetCountAsync()
+        {
+            return await _dbSet.CountAsync();
+        }
     }
 }

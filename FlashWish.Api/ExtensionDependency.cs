@@ -18,7 +18,7 @@ namespace FlashWish.Api
             services.AddScoped<IGreetingCardService, GreetingCardService>();
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IAuthService, AuthService>();
-
+            services.AddScoped<StatisticsService>();
 
             services.AddScoped<IRepositoryManager, RepositoryManager>();
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));

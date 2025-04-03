@@ -13,5 +13,6 @@ namespace FlashWish.Core.IRepositories
         Task<T> AddAsync(T entity);
         Task<T> UpdateAsync(int id, T entity);
         Task DeleteAsync(T entity);
+        Task<int> GetCountAsync();
     }
 }
