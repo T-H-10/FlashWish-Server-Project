@@ -101,10 +101,10 @@ namespace FlashWish.Api.Controllers
         public async Task<ActionResult> DeleteAsync(int id)
         {
             var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            if (currentUserId != id.ToString() && !User.IsInRole("Admin"))
-            {
-                return Forbid(); // 403 - אין הרשאה
-            }
+            //if (currentUserId != id.ToString() && !User.IsInRole("Admin"))
+            //{
+            //    return Forbid(); // 403 - אין הרשאה
+            //}
             var isDeleted = await _greetingMessageService.DeleteGreetingMessageAsync(id);
             if (!isDeleted)
             {

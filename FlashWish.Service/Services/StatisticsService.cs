@@ -20,12 +20,15 @@ namespace FlashWish.Service.Services
             var usersCount = await _repositoryManager.Users.GetCountAsync();
             var greetingsCount = await _repositoryManager.GreetingCards.GetCountAsync();
             var templatesCount = await _repositoryManager.Templates.GetCountAsync();
-
+            var greetingMessagesCount = await _repositoryManager.GreetingMessages.GetCountAsync();
+            var categoriesCount = await _repositoryManager.Categories.GetCountAsync();
             return new
             {
                 UsersCount = usersCount,
                 GreetingsCount = greetingsCount,
-                TemplatesCount = templatesCount
+                TemplatesCount = templatesCount,
+                GreetingMessagesCount= greetingMessagesCount,
+                CategoriesCount= categoriesCount
             };
         }
     }
