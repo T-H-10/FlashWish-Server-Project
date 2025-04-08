@@ -27,6 +27,7 @@ namespace FlashWish.Api
             services.AddScoped(typeof(ICategoryRepository),typeof(CategoryRepository));
 
             services.AddControllers();
+            services.AddHttpClient();
             services.AddScoped<DataContext>();
             //services.AddDbContext<DataContext>(options => options.UseSqlServer(connectionString), ServiceLifetime.Scoped);
             services.AddAutoMapper(typeof(MappingProfile), typeof(MappingPostProfile));

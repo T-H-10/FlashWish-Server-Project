@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace FlashWish.Core.Entities
 {
-    class ContentResponse
+    public class ContentResponse
     {
+        public string Text { get; set; } = string.Empty;
     }
 }

@@ -28,6 +28,7 @@ namespace FlashWish.Api.Controllers
                     return StatusCode((int)response.StatusCode, error);
                 }
                 var aiResponse = await response.Content.ReadFromJsonAsync<ContentResponse>();
+                Console.WriteLine(aiResponse);
                 return Ok(aiResponse);
             }
 
