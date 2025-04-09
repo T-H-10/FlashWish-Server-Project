@@ -8,6 +8,8 @@ namespace FlashWish.Core.Entities
 {
     public class ContentResponse
     {
-        public string Text { get; set; } = string.Empty;
+        public string Title { get; set; }
+        public string Content { get; set; }
+        public string Signature { get; set; }
     }
 }

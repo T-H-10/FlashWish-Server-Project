@@ -1,5 +1,6 @@
 ﻿using FlashWish.Core.Entities;
 using Microsoft.AspNetCore.Mvc;
+//using System.Web.Http;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -21,54 +22,58 @@ namespace FlashWish.Api.Controllers
         {
             try
             {
-                var response = await _httpClient.PostAsJsonAsync(SERVER_URL, new { prompt = request.Prompt });
+                Console.WriteLine($"""
+        ----- REQUEST RECEIVED -----
+        Prompt: {request.Prompt}
+        Style: {request.Style}
+        Rhyming: {request.Rhyming}
+        Length: {request.Length}
+        Recipient Gender: {request.RecipientGender}
+        Important Words: {string.Join(", ", request.ImportantWords)}
+        ----------------------------
+        """);
+
+                var response = await _httpClient.PostAsJsonAsync(SERVER_URL, request);
+
                 if (!response.IsSuccessStatusCode)
                 {
                     var error = await response.Content.ReadAsStringAsync();
                     return StatusCode((int)response.StatusCode, error);
                 }
+
                 var aiResponse = await response.Content.ReadFromJsonAsync<ContentResponse>();
-                Console.WriteLine(aiResponse);
                 return Ok(aiResponse);
             }
-
             catch (Exception ex)
             {
                 return StatusCode(500, new { error = ex.Message });
             }
-
-            //    // GET: api/<ContentController>
-            //    [HttpGet]
-            //    public IEnumerable<string> Get()
-            //    {
-            //        return new string[] { "value1", "value2" };
-            //    }
-
-            //    // GET api/<ContentController>/5
-            //    [HttpGet("{id}")]
-            //    public string Get(int id)
-            //    {
-            //        return "value";
-            //    }
-
-            //    // POST api/<ContentController>
-            //    [HttpPost]
-            //    public void Post([FromBody]string value)
-            //    {
-            //    }
-
-            //    // PUT api/<ContentController>/5
-            //    [HttpPut("{id}")]
-            //    public void Put(int id, [FromBody]string value)
-            //    {
-            //    }
-
-            //    // DELETE api/<ContentController>/5
-            //    [HttpDelete("{id}")]
-            //    public void Delete(int id)
-            //    {
-            //    }
-            //}
         }
+
+
+        //[HttpPost("generate")]
+        //public async Task<IActionResult> GenerateContent([FromBody] ContentRequest request)
+        //{
+        //    try
+        //    {
+        //        var response = await _httpClient.PostAsJsonAsync(SERVER_URL, request);
+        //        Console.WriteLine("------\nrequest:\n" + request.Prompt + "\n" + request.Style + "\n" + request.Rhyming + "\n" + request.Length + "\n" + request.RecipientGender);
+        //        Console.WriteLine("------\nresponse:\n"+response);
+        //        if (!response.IsSuccessStatusCode)
+        //        {
+        //            var error = await response.Content.ReadAsStringAsync();
+        //            return StatusCode((int)response.StatusCode, error);
+        //        }
+        //        var aiResponse = await response.Content.ReadFromJsonAsync<ContentResponse>();
+        //        Console.WriteLine(aiResponse);
+        //        return Ok(aiResponse);
+        //    }
+
+        //    catch (Exception ex)
+        //    {
+        //        return StatusCode(500, new { error = ex.Message });
+        //    }
+
+        //}
     }
 }
