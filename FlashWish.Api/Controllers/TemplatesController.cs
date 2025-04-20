@@ -99,15 +99,15 @@ namespace FlashWish.Api.Controllers
         // DELETE api/<TemplatesController>/5
         [HttpDelete("{id}")]
         //[Authorize(Roles = "EditorOrAdmin")]
-        public async Task<ActionResult> DeleteAsync(int id)
+        public async Task<ActionResult> DeleteAsync(int id) // הפונ רק מסמנת את התמונה כמיועדת למחיקה.
         {
             //var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             //if (currentUserId != id.ToString() && !User.IsInRole("Admin"))
             //{
             //    return Forbid(); // 403 - אין הרשאה
             //}
-            var isDeleted = await _templateService.DeleteTemplateAsync(id);
-            if (!isDeleted)
+            var isMarkedForDeletion = await _templateService.MarkTemplateForDeletionAsync(id);
+            if (!isMarkedForDeletion)
             {
                 return NotFound();//404
             }

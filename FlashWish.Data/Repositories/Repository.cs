@@ -78,5 +78,9 @@ namespace FlashWish.Data.Repositories
         {
             return await _dbSet.CountAsync();
         }
+        public async Task<bool> ExistsAsync(Expression<Func<T, bool>> predicate)
+        {
+            return await _dbSet.AnyAsync(predicate);
+        }
     }
 }

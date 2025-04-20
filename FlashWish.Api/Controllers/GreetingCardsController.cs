@@ -59,12 +59,15 @@ namespace FlashWish.Api.Controllers
                 return BadRequest();//400
             }
             var greetingDTO = _mapper.Map<GreetingCardDTO>(greetingCard);
-            var createdCard = await _greetingCardService.AddGreetingCardAsync(greetingDTO);
-            if (createdCard == null)
+            try
             {
-                return BadRequest(); //400
+                var createdCard = await _greetingCardService.AddGreetingCardAsync(greetingDTO);
+                return Ok(createdCard);//200
             }
-            return Ok(createdCard);//200
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);//400
+            }
         }
         // PUT api/<GreetingCardsController>/5
         [HttpPut("{id}")]
@@ -86,7 +89,7 @@ namespace FlashWish.Api.Controllers
 
         // DELETE api/<GreetingCardsController>/5
         [HttpDelete("{id}")]
-        [Authorize(Roles = "EditorOrAdmin")]
+        //[Authorize(Roles = "EditorOrAdmin")]
         public async Task<ActionResult> DeleteAsync(int id)
         {
             var isDeleted = await _greetingCardService.DeleteGreetingCardAsync(id);

@@ -32,7 +32,8 @@ namespace FlashWish.Service.Services
                 return null;
             }
             var url = await UploadToCloud(imageFile);
-            if(url == null) {
+            if (url == null)
+            {
                 return null;
             }
             templateToAdd.ImageURL = url.ToString();
@@ -42,26 +43,59 @@ namespace FlashWish.Service.Services
 
         }
 
+        //מחיקה מוחלטת מענן
         public async Task<bool> DeleteTemplateAsync(int id)
         {
-            var templateDTO = await _repositoryManager.Templates.GetByIdAsync(id);
-            if (templateDTO == null)
+            var template = await _repositoryManager.Templates.GetByIdAsync(id);
+            //var templateDTO = _mapper.Map<TemplateDTO>(template);
+            if (template == null)
+            {
+                throw new Exception("הרקע לא נמצא.");
+            }
+            if(!template.MarkedForDeletion)
             {
                 return false;
             }
-            var templateToDelete = _mapper.Map<Template>(templateDTO);
-            if (templateToDelete == null)
+            var cardsUsingTemplate = await _repositoryManager.GreetingCards.GetAllAsync(card => card.TemplateID == id);
+            if (cardsUsingTemplate.Any())
             {
                 return false;
             }
-            await _repositoryManager.Templates.DeleteAsync(templateToDelete);
+            // מחיקת התמונה מהענן
+            if (!string.IsNullOrEmpty(template.ImageURL))
+            {
+                await DeleteImageFromCloud(template.ImageURL);
+            }
+
+            //var templateToDelete = _mapper.Map<Template>(template);
+            //if (templateToDelete == null)
+            //{
+            //    return false;
+            //}
+            await _repositoryManager.Templates.DeleteAsync(template);
             await _repositoryManager.SaveAsync();
             return true;
         }
 
+        private async Task DeleteImageFromCloud(string imageURL)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<bool> MarkTemplateForDeletionAsync(int id)
+        {
+            var template = await _repositoryManager.Templates.GetByIdAsync(id);
+            if (template == null)
+            { return false; }
+            template.MarkedForDeletion = true;
+            await _repositoryManager.Templates.UpdateAsync(template.TemplateID, template);
+            return true;
+        }
+
+
         public async Task<IEnumerable<TemplateDTO>> GetAllTemplatesAsync()
         {
-            var templates = await _repositoryManager.Templates.GetAllAsync(template=> !template.MarkedForDeletion);
+            var templates = await _repositoryManager.Templates.GetAllAsync(template => !template.MarkedForDeletion);
             return _mapper.Map<IEnumerable<TemplateDTO>>(templates);
         }
 
