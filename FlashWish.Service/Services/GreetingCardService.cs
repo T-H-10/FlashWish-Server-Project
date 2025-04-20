@@ -83,40 +83,6 @@ namespace FlashWish.Service.Services
             return true;
         }
 
-        //public async Task<bool> DeleteGreetingCardAsync(int id)
-        //{
-        //    var card = await _repositoryManager.GreetingCards.GetByIdAsync(id);
-        //    if (card == null)
-        //    {
-        //        return false;
-        //    }
-        //    int templateId = card.TemplateID;
-
-        //    await _repositoryManager.GreetingCards.DeleteAsync(card);
-        //    await _repositoryManager.SaveAsync();
-
-        //    var stillInUse = await _repositoryManager.GreetingCards
-        //        .ExistsAsync(c => c.TemplateID == templateId);
-
-        //    if (!stillInUse) 
-        //    {
-        //        var template = await _repositoryManager.Templates.GetByIdAsync(templateId);
-        //        if (template?.MarkedForDeletion == true)
-        //        {
-        //            await _repositoryManager.GreetingCards.DeleteAsync(greetingCardToDelete);
-        //            await _repositoryManager.SaveAsync();
-        //        }
-        //        //var greetingCardToDelete = _mapper.Map<GreetingCard>(card);
-        //        //if (greetingCardToDelete == null)
-        //        //{
-        //        //    return false;
-        //        //}
-        //        //await _repositoryManager.GreetingCards.DeleteAsync(greetingCardToDelete);
-        //        //await _repositoryManager.SaveAsync();
-        //        //return true;
-        //    }
-        //    return true;
-        //}
 
 
         public async Task<IEnumerable<GreetingCardDTO>> GetAllGreetingCardsAsync()

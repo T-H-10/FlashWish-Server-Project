@@ -14,7 +14,7 @@ namespace FlashWish.Core.IServices
         Task<TemplateDTO?> GetTemplateByIdAsync(int id);
         Task<TemplateDTO> AddTemplateAsync(TemplateDTO template, IFormFile imageFile);
         Task<TemplateDTO?> UpdateTemplateAsync(int id, TemplateDTO template);
-        Task<bool> DeleteTemplateAsync(int id);
+        //Task<bool> DeleteTemplateAsync(int id);
         Task<bool> MarkTemplateForDeletionAsync(int id);
 
 

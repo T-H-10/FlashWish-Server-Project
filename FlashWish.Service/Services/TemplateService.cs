@@ -19,10 +19,12 @@ namespace FlashWish.Service.Services
     {
         private readonly IRepositoryManager _repositoryManager;
         private readonly IMapper _mapper;
-        public TemplateService(IRepositoryManager repositoryManager, IMapper mapper)
+        private readonly ICloudinaryService _cloudinaryService;
+        public TemplateService(IRepositoryManager repositoryManager, IMapper mapper, ICloudinaryService cloudinaryService)
         {
             _repositoryManager = repositoryManager;
             _mapper = mapper;
+            _cloudinaryService = cloudinaryService;
         }
         public async Task<TemplateDTO> AddTemplateAsync(TemplateDTO template, IFormFile imageFile)
         {
@@ -44,51 +46,66 @@ namespace FlashWish.Service.Services
         }
 
         //מחיקה מוחלטת מענן
-        public async Task<bool> DeleteTemplateAsync(int id)
-        {
-            var template = await _repositoryManager.Templates.GetByIdAsync(id);
-            //var templateDTO = _mapper.Map<TemplateDTO>(template);
-            if (template == null)
-            {
-                throw new Exception("הרקע לא נמצא.");
-            }
-            if(!template.MarkedForDeletion)
-            {
-                return false;
-            }
-            var cardsUsingTemplate = await _repositoryManager.GreetingCards.GetAllAsync(card => card.TemplateID == id);
-            if (cardsUsingTemplate.Any())
-            {
-                return false;
-            }
-            // מחיקת התמונה מהענן
-            if (!string.IsNullOrEmpty(template.ImageURL))
-            {
-                await DeleteImageFromCloud(template.ImageURL);
-            }
+        //public async Task<bool> DeleteTemplateAsync(int id)
+        //{
+        //    var template = await _repositoryManager.Templates.GetByIdAsync(id);
+        //    //var templateDTO = _mapper.Map<TemplateDTO>(template);
+        //    if (template == null)
+        //    {
+        //        throw new Exception("הרקע לא נמצא.");
+        //    }
+        //    if(!template.MarkedForDeletion)
+        //    {
+        //        return false;
+        //    }
+        //    var cardsUsingTemplate = await _repositoryManager.GreetingCards.GetAllAsync(card => card.TemplateID == id);
+        //    if (cardsUsingTemplate.Any())
+        //    {
+        //        return false;
+        //    }
+        //    // מחיקת התמונה מהענן
+        //    if (!string.IsNullOrEmpty(template.ImageURL))
+        //    {
+        //        await _cloudinaryService.DeleteImageAsync(template.ImageURL);
+        //    }
 
-            //var templateToDelete = _mapper.Map<Template>(template);
-            //if (templateToDelete == null)
-            //{
-            //    return false;
-            //}
-            await _repositoryManager.Templates.DeleteAsync(template);
-            await _repositoryManager.SaveAsync();
-            return true;
-        }
+        //    //var templateToDelete = _mapper.Map<Template>(template);
+        //    //if (templateToDelete == null)
+        //    //{
+        //    //    return false;
+        //    //}
+        //    await _repositoryManager.Templates.DeleteAsync(template);
+        //    await _repositoryManager.SaveAsync();
+        //    return true;
+        //}
 
-        private async Task DeleteImageFromCloud(string imageURL)
-        {
-            throw new NotImplementedException();
-        }
+
+        //private async Task DeleteImageFromCloud(string imageURL)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         public async Task<bool> MarkTemplateForDeletionAsync(int id)
         {
             var template = await _repositoryManager.Templates.GetByIdAsync(id);
             if (template == null)
             { return false; }
+
             template.MarkedForDeletion = true;
             await _repositoryManager.Templates.UpdateAsync(template.TemplateID, template);
+            await _repositoryManager.SaveAsync();
+
+            var cardsUsingTemplate = await _repositoryManager.GreetingCards.GetAllAsync(card => card.TemplateID == id);
+            if(!cardsUsingTemplate.Any())
+            {
+                // מחיקת התמונה מהענן
+                if (!string.IsNullOrEmpty(template.ImageURL))
+                {
+                    await _cloudinaryService.DeleteImageAsync(template.ImageURL);
+                }
+                await _repositoryManager.Templates.DeleteAsync(template);
+                await _repositoryManager.SaveAsync();
+            }
             return true;
         }
 
