@@ -74,14 +74,15 @@ namespace FlashWish.Api.Controllers
 
         // PUT api/<TemplatesController>/5
         [HttpPut("{id}")]
-        [Authorize(Roles = "EditorOrAdmin")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<TemplateDTO>> PutAsync(int id, [FromBody] TemplatePostModel template)
         {
-            if (template == null)
-            {
-                return BadRequest();//400
-            }
+            //if (template == null)
+            //{
+            //    return BadRequest();//400
+            //}
             var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            Console.WriteLine(User.IsInRole("Admin"));
             if (currentUserId != template.UserID.ToString() && !User.IsInRole("Admin"))
             {
                 return Forbid(); // 403

@@ -61,7 +61,7 @@ namespace FlashWish.Service.Services
 
         public async Task<IEnumerable<TemplateDTO>> GetAllTemplatesAsync()
         {
-            var templates = await _repositoryManager.Templates.GetAllAsync();
+            var templates = await _repositoryManager.Templates.GetAllAsync(template=> !template.MarkedForDeletion);
             return _mapper.Map<IEnumerable<TemplateDTO>>(templates);
         }
 

@@ -25,6 +25,7 @@ namespace FlashWish.Core.Entities
 
         [ForeignKey(nameof(User))]
         public int UserID { get; set; } = 0; //---
+        public bool MarkedForDeletion { get; set; } = false;
 
         [Url(ErrorMessage = "Invalid URL format.")]
         public string ImageURL { get; set; }
