@@ -40,7 +40,7 @@ namespace FlashWish.Api.Controllers
 
         // GET api/<UsersController>/5
         [HttpGet("{id}")]
-        [Authorize(Roles = "EditorOrAdmin")]
+        //[Authorize(Roles = "EditorOrAdmin")]
         public async Task<ActionResult<UserDTO>> GetAsync(int id)
         {
             var user = await _userService.GetUserByIdAsync(id);
@@ -53,7 +53,7 @@ namespace FlashWish.Api.Controllers
 
         // POST api/<UsersController>
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<ActionResult<UserDTO>> PostAsync([FromBody] UserPostModel user)
         {
             if (user == null)
@@ -79,10 +79,10 @@ namespace FlashWish.Api.Controllers
                 return BadRequest();//400
             }
             var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            if (currentUserId != id.ToString() && !User.IsInRole("Admin"))
-            {
-                return Forbid(); // 403 - אין הרשאה
-            }
+            //if (currentUserId != id.ToString() && !User.IsInRole("Admin"))
+            //{
+            //    return Forbid(); // 403 - אין הרשאה
+            //}
             var userDTO = _mapper.Map<UserDTO>(user);
             var updatedUser = await _userService.UpdateUserAsync(id, userDTO);
             if (updatedUser == null)

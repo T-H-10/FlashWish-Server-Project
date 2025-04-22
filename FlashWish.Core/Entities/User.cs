@@ -26,7 +26,7 @@ namespace FlashWish.Core.Entities
 
         [Required(ErrorMessage = "Password is required.")]
         [StringLength(128, ErrorMessage = "Password must be at least 6 characters long.", MinimumLength = 6)]
-        public string PasswordHash { get; set; }
+        public string Password { get; set; }
 
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime UpdatedAt { get; set; } = DateTime.Now;

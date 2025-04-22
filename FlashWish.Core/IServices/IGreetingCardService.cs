@@ -11,8 +11,8 @@ namespace FlashWish.Core.IServices
     {
         Task<IEnumerable<GreetingCardDTO>> GetAllGreetingCardsAsync();
         Task<GreetingCardDTO?> GetGreetingCardByIdAsync(int id);
-        Task<GreetingCardDTO> AddGreetingCardAsync(GreetingCardDTO user);
-        Task<GreetingCardDTO?> UpdateGreetingCardAsync(int id, GreetingCardDTO user);
+        Task<GreetingCardDTO> AddGreetingCardAsync(GreetingCardDTO card);
+        Task<GreetingCardDTO?> UpdateGreetingCardAsync(int id, GreetingCardDTO card);
         Task<bool> DeleteGreetingCardAsync(int id);
 
     }

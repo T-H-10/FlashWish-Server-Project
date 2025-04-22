@@ -53,7 +53,7 @@ namespace FlashWish.Data.Repositories
             foreach (var property in properties)
             {
                 // בדוק אם המאפיין הוא ID
-                if (!keyProperties.Any(k => k.Name == property.Name) && property.CanWrite)
+                if (!keyProperties.Any(k => k.Name == property.Name) && property.CanWrite && property.Name != "Password")
                 {
                     var newValue = property.GetValue(entity);
                     property.SetValue(existingEntity, newValue);

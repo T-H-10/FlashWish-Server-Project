@@ -54,14 +54,14 @@ namespace FlashWish.Service.Services
         public async Task<bool> ValidateUserAsync(string email, string password)
         {
             User user = await _repositoryManager.Users.GetByEmailAsync(email);
-            return user != null && BCrypt.Net.BCrypt.Verify(password, user.PasswordHash);
+            return user != null && BCrypt.Net.BCrypt.Verify(password, user.Password);
         }
 
         public async Task<LoginResultDTO> LoginAsync(string email, string password)
         {
             //if (await ValidateUserAsync(email, password))
             var user = await _repositoryManager.Users.GetByEmailAsync(email);
-            if (user == null || !BCrypt.Net.BCrypt.Verify(password, user.PasswordHash))
+            if (user == null || !BCrypt.Net.BCrypt.Verify(password, user.Password))
             {
                 return null;
             }
@@ -86,7 +86,7 @@ namespace FlashWish.Service.Services
             {
                 UserName = userDto.UserName,
                 Email = userDto.Email,
-                PasswordHash = BCrypt.Net.BCrypt.HashPassword(userDto.Password),
+                Password = BCrypt.Net.BCrypt.HashPassword(userDto.Password),
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow,
                 Roles = new List<Role>() { new Role { RoleName = "Editor" } }

@@ -56,6 +56,7 @@ namespace FlashWish.Api.Controllers
         {
             if (greetingCard == null)
             {
+                Console.WriteLine("greeting is null");
                 return BadRequest();//400
             }
             var greetingDTO = _mapper.Map<GreetingCardDTO>(greetingCard);

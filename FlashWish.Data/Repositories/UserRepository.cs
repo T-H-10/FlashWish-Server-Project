@@ -33,7 +33,7 @@ namespace FlashWish.Data.Repositories
             var user = new User
             {
                 Email = email,
-                PasswordHash =password, //do hash before!
+                Password =password, //do hash before!
                 CreatedAt = DateTime.Now,
                 GreetingCards = new List<GreetingCard>(),
                 UpdatedAt = DateTime.Now
