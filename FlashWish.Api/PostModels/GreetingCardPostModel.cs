@@ -2,7 +2,7 @@
 {
     public class GreetingCardPostModel
     {
-        public int userID { get; set; }
+        public int UserID { get; set; }
         public int TemplateID { get; set; }
         public int TextID { get; set; }
         public int CategoryID { get; set; }
