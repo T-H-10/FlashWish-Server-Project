@@ -89,5 +89,5 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-
+app.MapGet("/", () => "FlashWish server is running!");
 app.Run();
