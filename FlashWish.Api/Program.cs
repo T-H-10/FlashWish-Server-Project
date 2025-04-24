@@ -14,7 +14,7 @@ builder.Services.AddDependency();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowSpecificOrigin",
-        builder => builder.WithOrigins("http://localhost:5174","https://flashwish-client-users.onrender.com")
+        builder => builder.WithOrigins("http://localhost:5173","https://flashwish-client-users.onrender.com")
                           //.WithOrigins()
                           //.AllowAnyOrigin()
                           .AllowAnyHeader()
