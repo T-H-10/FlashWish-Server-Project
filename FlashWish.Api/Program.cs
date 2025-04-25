@@ -86,6 +86,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseExceptionHandler("/error"); // או
+//app.UseDeveloperExceptionPage(); // זמנית בסביבת פיתוח
+
+
 app.UseCors("AllowSpecificOrigin");
 app.UseAuthentication();
 app.UseAuthorization();
