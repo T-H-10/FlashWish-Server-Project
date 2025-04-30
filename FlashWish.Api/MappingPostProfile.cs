@@ -9,7 +9,8 @@ namespace FlashWish.Api
         public MappingPostProfile()
         {
             CreateMap<UserPostModel, UserDTO>();
-            CreateMap<TemplatePostModel, TemplateDTO>();
+            CreateMap<TemplatePostModelPost, TemplateDTO>();
+            CreateMap<TemplatePostModelPut, TemplateDTO>();
             CreateMap<GreetingCardPostModel, GreetingCardDTO>();
             CreateMap<GreetingMessagePostModel, GreetingMessageDTO>();
             CreateMap<CategoryPostModel, CategoryDTO>();

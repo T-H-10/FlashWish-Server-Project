@@ -53,20 +53,32 @@ namespace FlashWish.Data.Repositories
             foreach (var property in properties)
             {
                 // בדוק אם המאפיין הוא ID
-                if (!keyProperties.Any(k => k.Name == property.Name) && property.CanWrite && property.Name != "Password")
+                if (!keyProperties.Any(k => k.Name == property.Name) 
+                    && property.CanWrite 
+                    && property.Name != "Password"
+                    )
                 {
                     var newValue = property.GetValue(entity);
-                    property.SetValue(existingEntity, newValue);
+                    var currentValue = property.GetValue(existingEntity);
+
+                    if (newValue!=null 
+                        && !Equals(newValue, currentValue)
+                        && (property.PropertyType == typeof(DateTime) || property.PropertyType == typeof(DateTime?)) 
+                        && (DateTime)newValue == default
+                    )
+                    {
+                        property.SetValue(existingEntity, newValue);
+                    }
                 }
             }
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                return null;
-            }
+            //try
+            //{
+            //    await _context.SaveChangesAsync();
+            //}
+            //catch (DbUpdateException)
+            //{
+            //    return null;
+            //}
             return existingEntity;
         }
         public async Task DeleteAsync(T entity)

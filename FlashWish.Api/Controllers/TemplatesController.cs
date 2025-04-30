@@ -53,8 +53,9 @@ namespace FlashWish.Api.Controllers
         // POST api/<TemplatesController>
         [HttpPost]
         //[Authorize(Roles = "EditorOrAdmin")]
-        public async Task<ActionResult<TemplateDTO>> PostAsync([FromForm] TemplatePostModel template)
+        public async Task<ActionResult<TemplateDTO>> PostAsync([FromForm] TemplatePostModelPost template)
         {
+            Console.WriteLine(template);
             if (template == null || template.ImageFile == null || template.ImageFile.Length <= 0)
             {
                 return BadRequest();//400
@@ -75,7 +76,7 @@ namespace FlashWish.Api.Controllers
         // PUT api/<TemplatesController>/5
         [HttpPut("{id}")]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<TemplateDTO>> PutAsync(int id, [FromBody] TemplatePostModel template)
+        public async Task<ActionResult<TemplateDTO>> PutAsync(int id, [FromBody] TemplatePostModelPut template)
         {
             //if (template == null)
             //{
