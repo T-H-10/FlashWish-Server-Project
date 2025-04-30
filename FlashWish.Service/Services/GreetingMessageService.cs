@@ -58,7 +58,7 @@ namespace FlashWish.Service.Services
 
         public async Task<GreetingMessageDTO?> GetGreetingMessageByIdAsync(int id)
         {
-            var message = _repositoryManager.GreetingMessages.GetByIdAsync(id);
+            var message = await _repositoryManager.GreetingMessages.GetByIdAsync(id);
             return _mapper.Map<GreetingMessageDTO>(message);
 
         }

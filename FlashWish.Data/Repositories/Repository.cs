@@ -61,11 +61,14 @@ namespace FlashWish.Data.Repositories
                     var newValue = property.GetValue(entity);
                     var currentValue = property.GetValue(existingEntity);
 
-                    if (newValue!=null 
-                        && !Equals(newValue, currentValue)
-                        && (property.PropertyType == typeof(DateTime) || property.PropertyType == typeof(DateTime?)) 
-                        && (DateTime)newValue == default
-                    )
+                    if ((property.PropertyType == typeof(DateTime) || property.PropertyType == typeof(DateTime?)) &&
+    (DateTime)newValue == default)
+                    {
+                        continue;
+                    }
+
+
+                    if (newValue!=null && !Equals(newValue, currentValue))
                     {
                         property.SetValue(existingEntity, newValue);
                     }

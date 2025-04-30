@@ -74,7 +74,7 @@ namespace FlashWish.Api.Controllers
 
         // PUT api/<GreetingMessagesController>/5
         [HttpPut("{id}")]
-        [Authorize(Roles = "EditorOrAdmin")]
+        [Authorize(Policy = "EditorOrAdmin")]
         public async Task<ActionResult<GreetingMessageDTO>> PutAsync(int id, [FromBody] GreetingMessagePostModel message)
         {
             if (message == null)
@@ -82,10 +82,10 @@ namespace FlashWish.Api.Controllers
                 return BadRequest();//400
             }
             var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            if (currentUserId != message.UserID.ToString() && !User.IsInRole("Admin"))
-            {
-                return Forbid(); // 403
-            }
+            //if (currentUserId != message.UserID.ToString() && !User.IsInRole("Admin"))
+            //{
+            //    return Forbid(); // 403
+            //}
             var greetingDTO = _mapper.Map<GreetingMessageDTO>(message);
             var updatedGreeting = await _greetingMessageService.UpdateGreetingMessageAsync(id, greetingDTO);
             if (updatedGreeting == null)
