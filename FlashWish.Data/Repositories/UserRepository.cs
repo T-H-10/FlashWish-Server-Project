@@ -20,7 +20,7 @@ namespace FlashWish.Data.Repositories
             {
                 return null;
             }
-            return await _dbSet.Include(u=>u.Roles).FirstOrDefaultAsync(user => user.Email == email);
+            return await _dbSet.Include(u => u.Roles).FirstOrDefaultAsync(user => user.Email == email);
         }
 
         public async Task<string?> CreateUserAsync(string email, string password)
@@ -42,6 +42,11 @@ namespace FlashWish.Data.Repositories
             await _dbSet.AddAsync(user);
             await _context.SaveChangesAsync();
             return user.Id.ToString();
+        }
+
+        public async Task<bool> UserEmailExistsAsync(string email)
+        {
+            return await _dbSet.AnyAsync(u => u.Email == email);
         }
     }
 }

@@ -4,6 +4,7 @@ using FlashWish.Core.DTOs;
 using FlashWish.Core.IServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -103,6 +104,12 @@ namespace FlashWish.Api.Controllers
                 return NotFound(); // 404
             }
             return NoContent(); // 204
+        }
+
+        [HttpGet("email-exists")]
+        public async Task<ActionResult> UserEmailExistsAsync(string username)
+        {
+            return Ok(await _userService.UserEmailExistsAsync(username));
         }
     }
 }
