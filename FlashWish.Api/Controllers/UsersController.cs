@@ -107,9 +107,27 @@ namespace FlashWish.Api.Controllers
         }
 
         [HttpGet("email-exists")]
-        public async Task<ActionResult> UserEmailExistsAsync(string username)
+        public async Task<ActionResult> UserEmailExistsAsync(string email)
         {
-            return Ok(await _userService.UserEmailExistsAsync(username));
+            if (string.IsNullOrWhiteSpace(email) || !IsValidEmail(email))
+            {
+                return BadRequest("Invalid email format");
+            }
+            var exists = await _userService.UserEmailExistsAsync(email)
+            return Ok(exists);
+        }
+
+        private bool IsValidEmail(string email)
+        {
+            try
+            {
+                var addr = new System.Net.Mail.MailAddress(email);
+                return addr.Address == email;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }
