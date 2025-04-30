@@ -38,12 +38,38 @@ namespace FlashWish.Service.Services
             {
                 return null;
             }
-            templateToAdd.ImageURL = url.ToString();
+            var segments = url.Segments;
+            var index = Array.FindIndex(segments, s => s.Trim('/').Equals("upload", StringComparison.OrdinalIgnoreCase));
+            if (index>=0 && index+1<segments.Length)
+            {
+                var relativePath= string.Join("", segments.Skip(index + 1));
+                templateToAdd.ImageURL = relativePath;
+            }
             await _repositoryManager.Templates.AddAsync(templateToAdd);
             await _repositoryManager.SaveAsync();
             return _mapper.Map<TemplateDTO>(templateToAdd);
 
         }
+
+        //public static string ExtractCloudinaryRelativePath(string fullUrl)//יחזיר רק את החלק שצריך לשמור בDB.
+        //{
+        //    if (string.IsNullOrEmpty(fullUrl))
+        //        return string.Empty;
+
+        //    var uri = new Uri(fullUrl);
+        //    var segments = uri.Segments;
+
+        //    // חיפוש תחילת הנתיב הרלוונטי - אחרי "upload/"
+        //    var index = Array.FindIndex(segments, s => s.Trim('/').Equals("upload", StringComparison.OrdinalIgnoreCase));
+        //    if (index >= 0 && index + 1 < segments.Length)
+        //    {
+        //        // מחזיר את כל מה שאחרי /upload/
+        //        var relativePath = string.Join("", segments.Skip(index + 1));
+        //        return Uri.UnescapeDataString(relativePath);
+        //    }
+
+        //    return string.Empty;
+        //}
 
         //מחיקה מוחלטת מענן
         //public async Task<bool> DeleteTemplateAsync(int id)
