@@ -26,8 +26,8 @@ namespace FlashWish.Core.Entities
         [ForeignKey(nameof(Category))]
         public int CategoryID { get; set; }
         public string CanvasStyle { get; set; }
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
-        public DateTime UpdatedAt { get; set; } = DateTime.Now;
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
 
     }
 }

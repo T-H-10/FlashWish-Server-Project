@@ -26,8 +26,8 @@ namespace FlashWish.Core.Entities
         public string Content { get; set; }
 
         public string Signature { get; set; }
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
-        public DateTime UpdatedAt { get; set; } = DateTime.Now;
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
 
     }
 }

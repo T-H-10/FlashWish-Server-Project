@@ -9,7 +9,7 @@ namespace FlashWish.Core.DTOs
     public class GreetingCardDTO
     {
         public int CardID { get; set; }
-        public int userID { get; set; }
+        public int UserID { get; set; }
         public int TemplateID { get; set; }
         public int TextID { get; set; }
         public int CategoryID { get; set; }

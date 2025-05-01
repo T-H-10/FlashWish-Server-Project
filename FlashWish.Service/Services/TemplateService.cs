@@ -45,6 +45,8 @@ namespace FlashWish.Service.Services
                 var relativePath= string.Join("", segments.Skip(index + 1));
                 templateToAdd.ImageURL = relativePath;
             }
+            templateToAdd.CreatedAt = DateTime.UtcNow;
+            templateToAdd.UpdatedAt = DateTime.UtcNow;
             await _repositoryManager.Templates.AddAsync(templateToAdd);
             await _repositoryManager.SaveAsync();
             return _mapper.Map<TemplateDTO>(templateToAdd);
@@ -155,6 +157,7 @@ namespace FlashWish.Service.Services
                 return null;
             }
             var templateToUpdate = _mapper.Map<Template>(template);
+            templateToUpdate.UpdatedAt = DateTime.UtcNow;
             await _repositoryManager.Templates.UpdateAsync(id, templateToUpdate);
             await _repositoryManager.SaveAsync();
             return _mapper.Map<TemplateDTO?>(templateToUpdate);

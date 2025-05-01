@@ -34,9 +34,9 @@ namespace FlashWish.Data.Repositories
             {
                 Email = email,
                 Password =password, //do hash before!
-                CreatedAt = DateTime.Now,
+                //CreatedAt = DateTime.UtcNow,
                 GreetingCards = new List<GreetingCard>(),
-                UpdatedAt = DateTime.Now
+                //UpdatedAt = DateTime.UtcNow
             };
 
             await _dbSet.AddAsync(user);

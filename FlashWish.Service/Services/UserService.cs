@@ -27,6 +27,8 @@ namespace FlashWish.Service.Services
             var userToAdd = _mapper.Map<User>(user);
             if (userToAdd != null)
             {
+                userToAdd.CreatedAt = DateTime.UtcNow;
+                userToAdd.UpdatedAt = DateTime.UtcNow;
                 await _repositoryManager.Users.AddAsync(userToAdd);
                 await _repositoryManager.SaveAsync();
                 return _mapper.Map<UserDTO>(userToAdd);
@@ -41,12 +43,12 @@ namespace FlashWish.Service.Services
             {
                 return false;
             }
-            var userToDelete = _mapper.Map<User>(userDTO);
-            if (userToDelete == null)
-            {
-                return false;
-            }
-            await _repositoryManager.Users.DeleteAsync(userToDelete);
+            //var userToDelete = _mapper.Map<User>(userDTO);
+            //if (userToDelete == null)
+            //{
+            //    return false;
+            //}
+            await _repositoryManager.Users.DeleteAsync(userDTO);
             await _repositoryManager.SaveAsync();
             return true;
         }
@@ -70,6 +72,7 @@ namespace FlashWish.Service.Services
                 return null;
             }
             var userToUpdate = _mapper.Map<User>(user);
+            userToUpdate.UpdatedAt = DateTime.UtcNow;
             await _repositoryManager.Users.UpdateAsync(id, userToUpdate);
             await _repositoryManager.SaveAsync();
             return _mapper.Map<UserDTO?>(userToUpdate);

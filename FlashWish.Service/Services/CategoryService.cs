@@ -36,17 +36,17 @@ namespace FlashWish.Service.Services
 
         public async Task<bool> DeleteCategoryAsync(int id)
         {
-            var categoryDTO = _repositoryManager.Categories.GetByIdAsync(id);
+            var categoryDTO =await _repositoryManager.Categories.GetByIdAsync(id);
+            //if (categoryDTO == null)
+            //{
+            //    return false;
+            //}
+            //var categoryToDelete = _mapper.Map<Category>(categoryDTO);
             if (categoryDTO == null)
             {
                 return false;
             }
-            var categoryToDelete = _mapper.Map<Category>(categoryDTO);
-            if (categoryToDelete == null)
-            {
-                return false;
-            }
-            await _repositoryManager.Categories.DeleteAsync(categoryToDelete);
+            await _repositoryManager.Categories.DeleteAsync(categoryDTO);
             await _repositoryManager.SaveAsync();
             return true;
         }

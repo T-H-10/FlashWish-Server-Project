@@ -28,8 +28,8 @@ namespace FlashWish.Core.Entities
         [StringLength(128, ErrorMessage = "Password must be at least 6 characters long.", MinimumLength = 6)]
         public string Password { get; set; }
 
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
-        public DateTime UpdatedAt { get; set; } = DateTime.Now;
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
         //[ForeignKey(Role)]
         public ICollection<Role> Roles { get; set; } = new List<Role>();
         public ICollection<GreetingCard> GreetingCards { get; set; } = new List<GreetingCard>();

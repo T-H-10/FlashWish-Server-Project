@@ -109,6 +109,7 @@ namespace FlashWish.Service.Services
                 return null;
             }
             var greetingCardToUpdate = _mapper.Map<GreetingCard>(greetingCard);
+            greetingCardToUpdate.UpdatedAt = DateTime.UtcNow;
             await _repositoryManager.GreetingCards.UpdateAsync(id, greetingCardToUpdate);
             await _repositoryManager.SaveAsync();
             return _mapper.Map<GreetingCardDTO?>(greetingCardToUpdate);
