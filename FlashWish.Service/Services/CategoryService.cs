@@ -28,6 +28,8 @@ namespace FlashWish.Service.Services
                 return null;
             }
             var categoryToAdd = _mapper.Map<Category>(category);
+            categoryToAdd.CreatedAt = DateTime.UtcNow;
+            categoryToAdd.UpdatedAt = DateTime.UtcNow;
             await _repositoryManager.Categories.AddAsync(categoryToAdd);
             await _repositoryManager.SaveAsync();
             return _mapper.Map<CategoryDTO>(categoryToAdd);
@@ -70,6 +72,7 @@ namespace FlashWish.Service.Services
                 return null;
             }
             var categoryToUpdate = _mapper.Map<Category>(category);
+            categoryToUpdate.UpdatedAt = DateTime.UtcNow;
             await _repositoryManager.Categories.UpdateAsync(id, categoryToUpdate);
             await _repositoryManager.SaveAsync();
             return _mapper.Map<CategoryDTO?>(categoryToUpdate);
