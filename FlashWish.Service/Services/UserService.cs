@@ -76,16 +76,16 @@ namespace FlashWish.Service.Services
         }
 
 
-        //public async Task<UserDTO?> GetUserByEmailAsync(string email)
-        //{
-        //    var user = await _repositoryManager.Users.GetByEmailAsync(email); // הנח שיש לך פונקציה כזו
-        //    return _mapper.Map<UserDTO>(user);
-        //}
-
-        public async Task<bool> UserEmailExistsAsync(string email)
+        public async Task<UserDTO?> GetUserByEmailAsync(string email)
         {
-            return await _repositoryManager.Users.UserEmailExistsAsync(email);
+            var user = await _repositoryManager.Users.GetByEmailAsync(email); // הנח שיש לך פונקציה כזו
+            return _mapper.Map<UserDTO>(user);
         }
+
+        //public async Task<bool> UserEmailExistsAsync(string email)
+        //{
+        //    return await _repositoryManager.Users.UserEmailExistsAsync(email);
+        //}
         //public async Task<string> CreateUserAsync(string email, string password)
         //{
         //    var userID = await _repositoryManager.Users.CreateUserAsync(email, password);

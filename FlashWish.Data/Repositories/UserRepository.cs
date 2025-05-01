@@ -44,9 +44,9 @@ namespace FlashWish.Data.Repositories
             return user.Id.ToString();
         }
 
-        public async Task<bool> UserEmailExistsAsync(string email)
-        {
-            return await _dbSet.AnyAsync(u => u.Email == email);
-        }
+        //public async Task<bool> UserEmailExistsAsync(string email)
+        //{
+        //    return await _dbSet.AnyAsync(u => u.Email == email);
+        //}
     }
 }
