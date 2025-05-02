@@ -111,7 +111,7 @@ namespace FlashWish.Api.Controllers
 
         // DELETE api/<UsersController>/5
         [HttpDelete("{id}")]
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> DeleteAsync(int id)
         {
             var isDeleted = await _userService.DeleteUserAsync(id);
