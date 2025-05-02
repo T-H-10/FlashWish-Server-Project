@@ -10,6 +10,7 @@ namespace FlashWish.Core.IServices
     public interface IUserService
     {
         Task<IEnumerable<UserDTO>> GetAllUsersAsync();
+        Task<IEnumerable<UserWithRolesDTO>> GetUsersWithRolesAsync();
         Task<UserDTO?> GetUserByIdAsync(int id);
         Task<UserDTO> AddUserAsync(UserDTO user);
         Task<UserDTO?> UpdateUserAsync(int id, UserDTO user);

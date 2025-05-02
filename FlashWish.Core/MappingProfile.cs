@@ -14,6 +14,7 @@ namespace FlashWish.Core
         public MappingProfile()
         {
             CreateMap<User, UserDTO>().ReverseMap();
+            CreateMap<User, UserWithRolesDTO>().ReverseMap();
             CreateMap<Template, TemplateDTO>().ReverseMap();
             CreateMap<GreetingCard, GreetingCardDTO>().ReverseMap();
             CreateMap<GreetingMessage, GreetingMessageDTO>().ReverseMap();

@@ -65,6 +65,11 @@ namespace FlashWish.Service.Services
             return _mapper.Map<UserDTO>(user);
         }
 
+        public async Task<IEnumerable<UserWithRolesDTO>> GetUsersWithRolesAsync()
+        {
+           return await _repositoryManager.Users.GetUsersWithRolesAsync();
+        }
+
         public async Task<UserDTO?> UpdateUserAsync(int id, UserDTO user)
         {
             if (user == null)

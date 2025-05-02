@@ -39,6 +39,22 @@ namespace FlashWish.Api.Controllers
             return Ok(users);//200
         }
 
+        [HttpGet("Roles")]
+        [Authorize(Roles ="Admin")]
+        public async Task<ActionResult<UserWithRolesDTO>> GetUsersWithRoles()
+        {
+            var users = await _userService.GetUsersWithRolesAsync();
+            if (users == null)
+            {
+                return NotFound(); //404
+            }
+            if (!users.Any())
+            {
+                return NoContent(); //204
+            }
+            return Ok(users); //200
+        }
+
         // GET api/<UsersController>/5
         [HttpGet("{id}")]
         //[Authorize(Roles = "EditorOrAdmin")]

@@ -1,4 +1,5 @@
-﻿using FlashWish.Core.Entities;
+﻿using FlashWish.Core.DTOs;
+using FlashWish.Core.Entities;
 using FlashWish.Core.IRepositories;
 using Microsoft.Build.Utilities;
 using Microsoft.EntityFrameworkCore;
@@ -42,6 +43,21 @@ namespace FlashWish.Data.Repositories
             await _dbSet.AddAsync(user);
             await _context.SaveChangesAsync();
             return user.Id.ToString();
+        }
+
+        public async Task<IEnumerable<UserWithRolesDTO>> GetUsersWithRolesAsync()
+        {
+            var users= await _dbSet.Include(u => u.Roles).ToListAsync();
+            return users.Select(u => new UserWithRolesDTO
+            {
+                Id = u.Id,
+                UserName = u.UserName,
+                Email = u.Email,
+                Password = u.Password,
+                Roles = u.Roles.Select(r => r.RoleName).ToList(),
+                CreatedAt = u.CreatedAt,
+                UpdatedAt = u.UpdatedAt
+            }).ToList();
         }
 
         //public async Task<bool> UserEmailExistsAsync(string email)
