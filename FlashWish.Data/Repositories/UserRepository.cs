@@ -53,7 +53,6 @@ namespace FlashWish.Data.Repositories
                 Id = u.Id,
                 UserName = u.UserName,
                 Email = u.Email,
-                Password = u.Password,
                 Roles = u.Roles.Select(r => r.RoleName).ToList(),
                 CreatedAt = u.CreatedAt,
                 UpdatedAt = u.UpdatedAt

@@ -23,7 +23,7 @@ namespace FlashWish.Data
                 var envConnStr = Environment.GetEnvironmentVariable("CONNECTION_STRING");
                 if (!string.IsNullOrEmpty(envConnStr))
                 {
-                    optionsBuilder.UseNpgsql(envConnStr);
+                    optionsBuilder.UseMySQL(envConnStr);
                 }
                 else
                 {

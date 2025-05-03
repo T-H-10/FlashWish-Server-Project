@@ -74,14 +74,14 @@ namespace FlashWish.Data.Repositories
                     }
                 }
             }
-            //try
-            //{
-            //    await _context.SaveChangesAsync();
-            //}
-            //catch (DbUpdateException)
-            //{
-            //    return null;
-            //}
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException)
+            {
+                return null;
+            }
             return existingEntity;
         }
         public async Task DeleteAsync(T entity)

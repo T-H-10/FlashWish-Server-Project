@@ -7,4 +7,9 @@
         public string Password { get; set; }
 
     }
+    //public enum UserRole { Admin, Editor};
+    public class UserRolePostModel: UserPostModel
+    {
+        public string Role { get; set; }
+    }
 }

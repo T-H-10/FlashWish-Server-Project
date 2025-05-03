@@ -51,16 +51,20 @@ namespace FlashWish.Service.Services
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-        public async Task<bool> ValidateUserAsync(string email, string password)
-        {
-            User user = await _repositoryManager.Users.GetByEmailAsync(email);
-            return user != null && BCrypt.Net.BCrypt.Verify(password, user.Password);
-        }
+        //public async Task<bool> ValidateUserAsync(string email, string password)
+        //{
+        //    User user = await _repositoryManager.Users.GetByEmailAsync(email);
+        //    return user != null && BCrypt.Net.BCrypt.Verify(password, user.Password);
+        //}
 
         public async Task<LoginResultDTO> LoginAsync(string email, string password)
         {
-            //if (await ValidateUserAsync(email, password))
+            //if (!await ValidateUserAsync(email, password))
+            //    return null;
             var user = await _repositoryManager.Users.GetByEmailAsync(email);
+            Console.WriteLine(password);
+            Console.WriteLine(user.Password);
+            Console.WriteLine(BCrypt.Net.BCrypt.Verify(password, user.Password));
             if (user == null || !BCrypt.Net.BCrypt.Verify(password, user.Password))
             {
                 return null;

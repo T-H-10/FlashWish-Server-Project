@@ -109,6 +109,7 @@ namespace FlashWish.Api.Controllers
             return Ok(updatedUser);//200
         }
 
+
         // DELETE api/<UsersController>/5
         [HttpDelete("{id}")]
         [Authorize(Roles = "Admin")]
@@ -123,7 +124,7 @@ namespace FlashWish.Api.Controllers
         }
 
         [HttpGet("email-exists")]
-        public async Task<ActionResult<UserDTO?>> UserEmailExistsAsync(string email)
+        public async Task<ActionResult<UserResponseDTO?>> UserEmailExistsAsync(string email)
         {
             if (string.IsNullOrWhiteSpace(email) || !IsValidEmail(email))
             {

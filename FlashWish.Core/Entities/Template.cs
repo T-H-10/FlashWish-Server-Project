@@ -21,7 +21,7 @@ namespace FlashWish.Core.Entities
         //public string TemplateDescription { get; set; }
 
         [ForeignKey(nameof(Category))]
-        public int CategoryID { get; set; }
+        public int? CategoryID { get; set; }
 
         [ForeignKey(nameof(User))]
         public int UserID { get; set; } = 0; //---

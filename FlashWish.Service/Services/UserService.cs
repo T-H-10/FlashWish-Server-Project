@@ -22,16 +22,17 @@ namespace FlashWish.Service.Services
             _repositoryManager = repositoryManager;
             _mapper = mapper;
         }
-        public async Task<UserDTO> AddUserAsync(UserDTO user)
+        public async Task<UserResponseDTO> AddUserAsync(UserDTO user)
         {
             var userToAdd = _mapper.Map<User>(user);
             if (userToAdd != null)
             {
+                userToAdd.Password = BCrypt.Net.BCrypt.HashPassword(userToAdd.Password);
                 userToAdd.CreatedAt = DateTime.UtcNow;
                 userToAdd.UpdatedAt = DateTime.UtcNow;
                 await _repositoryManager.Users.AddAsync(userToAdd);
                 await _repositoryManager.SaveAsync();
-                return _mapper.Map<UserDTO>(userToAdd);
+                return _mapper.Map<UserResponseDTO>(userToAdd);
             }
             return null;
         }
@@ -53,16 +54,16 @@ namespace FlashWish.Service.Services
             return true;
         }
 
-        public async Task<IEnumerable<UserDTO>> GetAllUsersAsync()
+        public async Task<IEnumerable<UserResponseDTO>> GetAllUsersAsync()
         {
             var users = await _repositoryManager.Users.GetAllAsync();
-            return _mapper.Map<IEnumerable<UserDTO>>(users);
+            return _mapper.Map<IEnumerable<UserResponseDTO>>(users);
         }
 
-        public async Task<UserDTO?> GetUserByIdAsync(int id)
+        public async Task<UserResponseDTO?> GetUserByIdAsync(int id)
         {
             var user = await _repositoryManager.Users.GetByIdAsync(id);
-            return _mapper.Map<UserDTO>(user);
+            return _mapper.Map<UserResponseDTO>(user);
         }
 
         public async Task<IEnumerable<UserWithRolesDTO>> GetUsersWithRolesAsync()
@@ -70,7 +71,7 @@ namespace FlashWish.Service.Services
            return await _repositoryManager.Users.GetUsersWithRolesAsync();
         }
 
-        public async Task<UserDTO?> UpdateUserAsync(int id, UserDTO user)
+        public async Task<UserResponseDTO?> UpdateUserAsync(int id, UserDTO user)
         {
             if (user == null)
             {
@@ -80,14 +81,23 @@ namespace FlashWish.Service.Services
             userToUpdate.UpdatedAt = DateTime.UtcNow;
             await _repositoryManager.Users.UpdateAsync(id, userToUpdate);
             await _repositoryManager.SaveAsync();
-            return _mapper.Map<UserDTO?>(userToUpdate);
+            return _mapper.Map<UserResponseDTO?>(userToUpdate);
         }
 
 
-        public async Task<UserDTO?> GetUserByEmailAsync(string email)
+        public async Task<UserResponseDTO?> GetUserByEmailAsync(string email)
         {
             var user = await _repositoryManager.Users.GetByEmailAsync(email); // הנח שיש לך פונקציה כזו
-            return _mapper.Map<UserDTO>(user);
+            return _mapper.Map<UserResponseDTO>(user);
+        }
+
+        public async Task<bool> UpdateUserRoleAsynv(int id, string newRole)
+        {
+            var user = await _repositoryManager.Users.GetByIdAsync(id);
+            if (user == null) return false;
+            //user.Roles.Add(newRole);
+            await _repositoryManager.Users.UpdateAsync(id, user);
+            return true;
         }
 
         //public async Task<bool> UserEmailExistsAsync(string email)
