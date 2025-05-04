@@ -91,7 +91,11 @@ namespace FlashWish.Service.Services
             return _mapper.Map<IEnumerable<GreetingCardDTO>>(greetingCards);
         }
 
-
+        public async Task<IEnumerable<GreetingCardDTO>> GetMyGreetingCardsAsync(int userId)
+        {
+            var greetingCards = await _repositoryManager.GreetingCards.GetAllAsync(card => card.UserID == userId);
+            return _mapper.Map<IEnumerable<GreetingCardDTO>>(greetingCards);
+        }
         public async Task<GreetingCardDTO?> GetGreetingCardByIdAsync(int id)
         {
             var greetingCard = await _repositoryManager.GreetingCards.GetByIdAsync(id);

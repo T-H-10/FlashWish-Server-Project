@@ -23,7 +23,9 @@ namespace FlashWish.Data
                 var envConnStr = Environment.GetEnvironmentVariable("CONNECTION_STRING");
                 if (!string.IsNullOrEmpty(envConnStr))
                 {
-                    optionsBuilder.UseMySQL(envConnStr);
+                    string connectionString = "Host=bjjnaxkvaroic4opmshz-mysql.services.clever-cloud.com;Port=3306;Username=upyi7oaulbc0mflu;Password=RErLekhPbilXsYa44kbH;Database=bjjnaxkvaroic4opmshz;";
+
+                    optionsBuilder.UseMySQL(connectionString);
                 }
                 else
                 {

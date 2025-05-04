@@ -22,7 +22,7 @@ namespace FlashWish.Api.Controllers
         }
         // GET: api/<GreetingCardsController>
         [HttpGet]
-        //[Authorize(Roles = "EditorOrAdmin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<ActionResult<GreetingCardDTO>> GetAsync()
         {
             var greetingCards = await _greetingCardService.GetAllGreetingCardsAsync();
@@ -35,6 +35,22 @@ namespace FlashWish.Api.Controllers
                 return NoContent();//204
             }
             return Ok(greetingCards);//200
+        }
+
+        [HttpGet("MyCards/{userId}")]
+        public async Task<ActionResult<GreetingCardDTO>> GetMyAsync(int userId)
+        {
+            Console.WriteLine(userId);
+            var greetingCards = await _greetingCardService.GetMyGreetingCardsAsync(userId);
+            if (greetingCards == null)
+            {
+                return NotFound();//404
+            }
+            if (!greetingCards.Any())
+            {
+                return NoContent();//204
+            }
+            return Ok(greetingCards);
         }
         // GET api/<GreetingCardsController>/5
         [HttpGet("{id}")]
