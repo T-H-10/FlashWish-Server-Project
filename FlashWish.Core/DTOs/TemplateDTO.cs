@@ -11,7 +11,7 @@ namespace FlashWish.Core.DTOs
         public int TemplateID { get; set; }
         public string TemplateName { get; set; }
         //public string TemplateDescription { get; set; }
-        public int? CategoryID { get; set; }
+        public int CategoryID { get; set; }
         public int UserID { get; set; }
         public bool MarkedForDeletion { get; set; }
         public string ImageURL { get; set; }

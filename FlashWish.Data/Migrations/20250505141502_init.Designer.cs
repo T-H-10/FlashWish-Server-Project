@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FlashWish.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250322192329_add signature to messages table")]
-    partial class addsignaturetomessagestable
+    [Migration("20250505141502_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -38,6 +38,12 @@ namespace FlashWish.Data.Migrations
                         .HasMaxLength(80)
                         .HasColumnType("nvarchar(80)");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("CategoryID");
 
                     b.ToTable("Categories");
@@ -50,6 +56,10 @@ namespace FlashWish.Data.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CardID"));
+
+                    b.Property<string>("CanvasStyle")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("CategoryID")
                         .HasColumnType("int");
@@ -183,6 +193,9 @@ namespace FlashWish.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("MarkedForDeletion")
+                        .HasColumnType("bit");
+
                     b.Property<string>("TemplateName")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -217,7 +230,7 @@ namespace FlashWish.Data.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("PasswordHash")
+                    b.Property<string>("Password")
                         .IsRequired()
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
