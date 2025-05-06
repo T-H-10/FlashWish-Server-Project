@@ -40,7 +40,6 @@ namespace FlashWish.Api.Controllers
         [HttpGet("MyCards/{userId}")]
         public async Task<ActionResult<GreetingCardDTO>> GetMyAsync(int userId)
         {
-            Console.WriteLine(userId);
             var greetingCards = await _greetingCardService.GetMyGreetingCardsAsync(userId);
             if (greetingCards == null)
             {
@@ -70,22 +69,18 @@ namespace FlashWish.Api.Controllers
         //[Authorize(Roles = "EditorOrAdmin")]
         public async Task<ActionResult<GreetingCardDTO>> PostAsync([FromBody] GreetingCardPostModel greetingCard)
         {
-            Console.WriteLine("----here1");
             if (greetingCard == null)
             {
-                Console.WriteLine("greeting is null");
                 return BadRequest();//400
             }
             var greetingDTO = _mapper.Map<GreetingCardDTO>(greetingCard);
             try
             {
                 var createdCard = await _greetingCardService.AddGreetingCardAsync(greetingDTO);
-                Console.WriteLine("----here2");
                 return Ok(createdCard);//200
             }
             catch (Exception ex)
             {
-                Console.WriteLine("----here3");
                 return BadRequest(ex.Message);//400
             }
         }

@@ -55,7 +55,6 @@ namespace FlashWish.Api.Controllers
         //[Authorize(Roles = "EditorOrAdmin")]
         public async Task<ActionResult<TemplateDTO>> PostAsync([FromForm] TemplatePostModel template)
         {
-            Console.WriteLine(template);
             if (template == null || template.ImageFile == null || template.ImageFile.Length <= 0)
             {
                 return BadRequest();//400
@@ -83,7 +82,6 @@ namespace FlashWish.Api.Controllers
             //    return BadRequest();//400
             //}
             var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            Console.WriteLine(User.IsInRole("Admin"));
             if (currentUserId != template.UserID.ToString() && !User.IsInRole("Admin"))
             {
                 return Forbid(); // 403

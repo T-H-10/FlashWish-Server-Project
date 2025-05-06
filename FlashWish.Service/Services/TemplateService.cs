@@ -168,7 +168,6 @@ namespace FlashWish.Service.Services
         {
             // טען את קובץ ה-.env
             Env.Load();
-            Console.WriteLine(Env.GetString("CLOUDINARY_CLOUD_NAME"));
             // קבל את הערכים
             var cloudName = Env.GetString("CLOUDINARY_CLOUD_NAME");
             var apiKey = Env.GetString("CLOUDINARY_API_KEY");
@@ -203,7 +202,6 @@ namespace FlashWish.Service.Services
             }
             catch (Exception)
             {
-                //Console.WriteLine(ex.Message);
                 return null;
             }
 

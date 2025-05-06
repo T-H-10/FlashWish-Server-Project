@@ -49,30 +49,5 @@ namespace FlashWish.Api.Controllers
             }
         }
 
-
-        //[HttpPost("generate")]
-        //public async Task<IActionResult> GenerateContent([FromBody] ContentRequest request)
-        //{
-        //    try
-        //    {
-        //        var response = await _httpClient.PostAsJsonAsync(SERVER_URL, request);
-        //        Console.WriteLine("------\nrequest:\n" + request.Prompt + "\n" + request.Style + "\n" + request.Rhyming + "\n" + request.Length + "\n" + request.RecipientGender);
-        //        Console.WriteLine("------\nresponse:\n"+response);
-        //        if (!response.IsSuccessStatusCode)
-        //        {
-        //            var error = await response.Content.ReadAsStringAsync();
-        //            return StatusCode((int)response.StatusCode, error);
-        //        }
-        //        var aiResponse = await response.Content.ReadFromJsonAsync<ContentResponse>();
-        //        Console.WriteLine(aiResponse);
-        //        return Ok(aiResponse);
-        //    }
-
-        //    catch (Exception ex)
-        //    {
-        //        return StatusCode(500, new { error = ex.Message });
-        //    }
-
-        //}
     }
 }

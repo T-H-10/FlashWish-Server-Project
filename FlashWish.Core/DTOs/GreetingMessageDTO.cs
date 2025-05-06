@@ -13,6 +13,7 @@ namespace FlashWish.Core.DTOs
         public string Title { get; set; }
         public string Content { get; set; }
         public string Signature { get; set; }
+        public bool MarkedForDeletion { get; set; }
         public int UserID { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }

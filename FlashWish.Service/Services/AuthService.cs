@@ -62,9 +62,6 @@ namespace FlashWish.Service.Services
             //if (!await ValidateUserAsync(email, password))
             //    return null;
             var user = await _repositoryManager.Users.GetByEmailAsync(email);
-            Console.WriteLine(password);
-            Console.WriteLine(user.Password);
-            Console.WriteLine(BCrypt.Net.BCrypt.Verify(password, user.Password));
             if (user == null || !BCrypt.Net.BCrypt.Verify(password, user.Password))
             {
                 return null;
