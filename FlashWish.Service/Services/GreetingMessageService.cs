@@ -23,13 +23,15 @@ namespace FlashWish.Service.Services
         public async Task<GreetingMessageDTO> AddGreetingMessageAsync(GreetingMessageDTO message)
         {
             var messageToAdd = _mapper.Map<GreetingMessage>(message);
-            if (message != null)
+            if (messageToAdd == null)
             {
-                await _repositoryManager.GreetingMessages.AddAsync(messageToAdd);
-                await _repositoryManager.SaveAsync();
-                return _mapper.Map<GreetingMessageDTO>(messageToAdd);
+                return null;
             }
-            return null;
+            messageToAdd.CreatedAt = DateTime.UtcNow;
+            messageToAdd.UpdatedAt = DateTime.UtcNow;
+            await _repositoryManager.GreetingMessages.AddAsync(messageToAdd);
+            await _repositoryManager.SaveAsync();
+            return _mapper.Map<GreetingMessageDTO>(messageToAdd);
         }
 
         //public async Task<bool> DeleteGreetingMessageAsync(int id)

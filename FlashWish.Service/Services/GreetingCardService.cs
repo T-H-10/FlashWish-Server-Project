@@ -27,14 +27,23 @@ namespace FlashWish.Service.Services
             var template = await _repositoryManager.Templates.GetByIdAsync(greetingCardDto.TemplateID);
             if (template == null)
             {
-                throw new Exception("לא נמצא רקע תואם לבקשה.");
+                //throw new Exception("לא נמצא רקע תואם לבקשה.");
+                return null;
             }
 
             if (template.MarkedForDeletion)
             {
-                throw new Exception("אין אפשרות ליצור כרטיס ברכה מתבנית המסומנת למחיקה.");
+                return null;
+                //throw new Exception("אין אפשרות ליצור כרטיס ברכה מתבנית המסומנת למחיקה.");
+            }
+            var message = await _repositoryManager.GreetingMessages.GetByIdAsync(greetingCardDto.TextID);
+            if(message == null || message.MarkedForDeletion)
+            {
+                return null;
             }
             var greetingCardToAdd = _mapper.Map<GreetingCard>(greetingCardDto);
+            greetingCardToAdd.CreatedAt = DateTime.UtcNow;
+            greetingCardToAdd.UpdatedAt = DateTime.UtcNow;
             //if (greetingCardToAdd != null)
             //{
             await _repositoryManager.GreetingCards.AddAsync(greetingCardToAdd);
