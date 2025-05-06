@@ -100,13 +100,14 @@ namespace FlashWish.Api.Controllers
         //[Authorize(Roles = "EditorOrAdmin")]
         public async Task<ActionResult> DeleteAsync(int id)
         {
-            var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            //var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             //if (currentUserId != id.ToString() && !User.IsInRole("Admin"))
             //{
             //    return Forbid(); // 403 - אין הרשאה
             //}
-            var isDeleted = await _greetingMessageService.DeleteGreetingMessageAsync(id);
-            if (!isDeleted)
+            var isMarkedForDeletion = await _greetingMessageService.MarkMessageForDeletionAsync(id);
+            //var isDeleted = await _greetingMessageService.DeleteGreetingMessageAsync(id);
+            if (!isMarkedForDeletion)
             {
                 return NotFound(); //404
             }

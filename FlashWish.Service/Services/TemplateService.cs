@@ -120,7 +120,7 @@ namespace FlashWish.Service.Services
             { return false; }
 
             template.MarkedForDeletion = true;
-            await _repositoryManager.Templates.UpdateAsync(template.TemplateID, template);
+            await _repositoryManager.Templates.UpdateAsync(id, template);
             await _repositoryManager.SaveAsync();
 
             var cardsUsingTemplate = await _repositoryManager.GreetingCards.GetAllAsync(card => card.TemplateID == id);

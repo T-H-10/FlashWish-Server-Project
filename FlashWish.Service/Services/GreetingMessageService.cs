@@ -32,20 +32,40 @@ namespace FlashWish.Service.Services
             return null;
         }
 
-        public async Task<bool> DeleteGreetingMessageAsync(int id)
+        //public async Task<bool> DeleteGreetingMessageAsync(int id)
+        //{
+        //    var messageDTO = await _repositoryManager.GreetingMessages.GetByIdAsync(id);
+        //    if (messageDTO == null)
+        //    {
+        //        return false;
+        //    }
+        //    var messageToDelete = _mapper.Map<GreetingMessage>(messageDTO);
+        //    if (messageToDelete == null)
+        //    {
+        //        return false;
+        //    }
+        //    await _repositoryManager.GreetingMessages.DeleteAsync(messageToDelete);
+        //    await _repositoryManager.SaveAsync();
+        //    return true;
+        //}
+
+        public async Task<bool> MarkMessageForDeletionAsync(int id)
         {
-            var messageDTO = await _repositoryManager.GreetingMessages.GetByIdAsync(id);
-            if (messageDTO == null)
+            var message = await _repositoryManager.GreetingMessages.GetByIdAsync(id);
+            if (message == null)
             {
                 return false;
             }
-            var messageToDelete = _mapper.Map<GreetingMessage>(messageDTO);
-            if (messageToDelete == null)
-            {
-                return false;
-            }
-            await _repositoryManager.GreetingMessages.DeleteAsync(messageToDelete);
+            message.MarkedForDeletion = true;
+            await _repositoryManager.GreetingMessages.UpdateAsync(id, message);
             await _repositoryManager.SaveAsync();
+
+            var cardsUsingMessage = await _repositoryManager.GreetingCards.GetAllAsync(card => card.TextID == id);
+            if (!cardsUsingMessage.Any())
+            {
+                await _repositoryManager.GreetingMessages.DeleteAsync(message);
+                await _repositoryManager.SaveAsync();
+            }
             return true;
         }
 

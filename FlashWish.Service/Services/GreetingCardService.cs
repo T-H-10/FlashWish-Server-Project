@@ -54,16 +54,16 @@ namespace FlashWish.Service.Services
             }
 
             int templateId = card.TemplateID;
-
+            int messageId = card.TextID;
             // שלב 2 – מחיקת הכרטיס
             await _repositoryManager.GreetingCards.DeleteAsync(card);
             await _repositoryManager.SaveAsync();
 
             // שלב 3 – בדיקה אם יש עדיין כרטיסים שמשתמשים בתבנית הזו
-            var stillInUse = await _repositoryManager.GreetingCards
+            var stillInTemplateUse = await _repositoryManager.GreetingCards
                 .ExistsAsync(c => c.TemplateID == templateId);
 
-            if (!stillInUse)
+            if (!stillInTemplateUse)
             {
                 // שלב 4 – קבלת התבנית
                 var template = await _repositoryManager.Templates.GetByIdAsync(templateId);
@@ -73,13 +73,24 @@ namespace FlashWish.Service.Services
                 {
                     // שלב 6 – מחיקת התמונה מהענן
                     bool imageDeleted = await _cloudinartService.DeleteImageAsync(template.ImageURL);
-
+                    Console.WriteLine("the image " + template.TemplateID + " deleted? " + imageDeleted);
                     // שלב 7 – מחיקת התבנית עצמה
                     await _repositoryManager.Templates.DeleteAsync(template);
                     await _repositoryManager.SaveAsync();
                 }
             }
 
+            var stillInMessageUse= await _repositoryManager.GreetingCards
+                .ExistsAsync(c=>c.TextID == messageId);
+            if (!stillInMessageUse)
+            {
+                var message = await _repositoryManager.GreetingMessages.GetByIdAsync(messageId);
+                if(message?.MarkedForDeletion == true)
+                {
+                    await _repositoryManager.GreetingMessages.DeleteAsync(message);
+                    await _repositoryManager.SaveAsync();
+                }
+            }
             return true;
         }
 

@@ -13,7 +13,8 @@ namespace FlashWish.Core.IServices
         Task<GreetingMessageDTO?> GetGreetingMessageByIdAsync(int id);
         Task<GreetingMessageDTO> AddGreetingMessageAsync(GreetingMessageDTO message);
         Task<GreetingMessageDTO?> UpdateGreetingMessageAsync(int id, GreetingMessageDTO message);
-        Task<bool> DeleteGreetingMessageAsync(int id);
+        //Task<bool> DeleteGreetingMessageAsync(int id);
+        Task<bool> MarkMessageForDeletionAsync(int id);
 
     }
 }
