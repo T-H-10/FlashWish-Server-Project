@@ -123,6 +123,30 @@ namespace FlashWish.Api.Controllers
             return NoContent(); // 204
         }
 
+        [HttpPut("{id}/add-admin-role")]
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult> AddAdminRole(int id)
+        {
+            var result = await _userService.AddAdminRoleAsync(id);
+            if (!result)
+            {
+                return NotFound(); // 404
+            }
+            return NoContent(); // 204
+        }
+
+        [HttpPut("{id}/remove-admin-role")]
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult> RemoveAdminRole(int id)
+        {
+            var result = await _userService.RemoveAdminRoleAsync(id);
+            if (!result)
+            {
+                return NotFound(); // 404
+            }
+            return NoContent(); // 204
+        }
+
         [HttpGet("email-exists")]
         public async Task<ActionResult<UserResponseDTO?>> UserEmailExistsAsync(string email)
         {

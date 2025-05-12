@@ -100,6 +100,16 @@ namespace FlashWish.Service.Services
             return true;
         }
 
+        public async Task<bool> AddAdminRoleAsync(int userId)
+        {
+            return await _repositoryManager.Users.AddAdminRoleAsync(userId);
+        }
+
+        public async Task<bool> RemoveAdminRoleAsync(int userId)
+        {
+            return await _repositoryManager.Users.RemoveAdminRoleAsync(userId);
+        }
+
         //public async Task<bool> UserEmailExistsAsync(string email)
         //{
         //    return await _repositoryManager.Users.UserEmailExistsAsync(email);

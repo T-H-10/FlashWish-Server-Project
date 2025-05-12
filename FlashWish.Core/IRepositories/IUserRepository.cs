@@ -13,6 +13,9 @@ namespace FlashWish.Core.IRepositories
         public Task<User?> GetByEmailAsync(string email);
 
         public Task<IEnumerable<UserWithRolesDTO>> GetUsersWithRolesAsync();
+
+        public Task<bool> AddAdminRoleAsync(int userId);
+        public Task<bool> RemoveAdminRoleAsync(int userId);
         //public Task<bool> UserEmailExistsAsync(string email);
         //Task<string?> CreateUserAsync(string email, string password);
     }

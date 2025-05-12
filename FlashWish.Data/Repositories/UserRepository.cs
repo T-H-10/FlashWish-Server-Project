@@ -59,6 +59,44 @@ namespace FlashWish.Data.Repositories
             }).ToList();
         }
 
+        public async Task<bool> AddAdminRoleAsync(int userId)
+        {
+            var user = await _dbSet.Include(u => u.Roles).FirstOrDefaultAsync(u => u.Id == userId);
+            if (user == null)
+            {
+                return false;
+            }
+            var adminRole = await _context.Roles.FirstOrDefaultAsync(r => r.RoleName == "Admin");
+            if(adminRole == null)
+            {
+                return false;
+            }
+            if (!user.Roles.Any(r => r.RoleName == "Admin"))
+            {
+                user.Roles.Add(adminRole);
+            }
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<bool> RemoveAdminRoleAsync(int userId)
+        {
+            var user= await _dbSet.Include(u=>u.Roles).FirstOrDefaultAsync(u => u.Id == userId);
+            if(user == null)
+            {
+                return false;
+            }
+
+            var adminRole = user.Roles.FirstOrDefault(r => r.RoleName == "Admin");
+            if( adminRole == null)
+            {
+                return false;
+            }
+            user.Roles.Remove(adminRole);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
         //public async Task<bool> UserEmailExistsAsync(string email)
         //{
         //    return await _dbSet.AnyAsync(u => u.Email == email);
