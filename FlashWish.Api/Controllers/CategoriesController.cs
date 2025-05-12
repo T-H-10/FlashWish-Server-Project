@@ -51,7 +51,7 @@ namespace FlashWish.Api.Controllers
 
         // POST api/<categoriesController>
         [HttpPost]
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Policy = "EditorOrAdmin")]
         public async Task<ActionResult<CategoryDTO>> PostAsync([FromBody] CategoryPostModel category)
         {
             if (category == null)
