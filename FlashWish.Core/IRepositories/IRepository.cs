@@ -18,6 +18,7 @@ namespace FlashWish.Core.IRepositories
         Task<T> UpdateAsync(int id, T entity);
         Task DeleteAsync(T entity);
         Task<int> GetCountAsync();
+        Task<int> GetCountAsync(Expression<Func<T, bool>> predicate);
         Task<bool> ExistsAsync(Expression<Func<T, bool>> predicate);
 
     }

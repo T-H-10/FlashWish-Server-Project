@@ -92,6 +92,11 @@ namespace FlashWish.Data.Repositories
             {
                 return false;
             }
+            var totalAdmins = await _dbSet.Where(u => u.Roles.Any(r => r.RoleName == "Admin")).CountAsync();
+            if (totalAdmins <= 1)
+            {
+                return false;
+            }
             user.Roles.Remove(adminRole);
             await _context.SaveChangesAsync();
             return true;
