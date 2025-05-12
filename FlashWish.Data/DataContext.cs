@@ -1,5 +1,6 @@
 ﻿using FlashWish.Core.Entities;
 using Microsoft.EntityFrameworkCore;
+using DotNetEnv;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,17 +22,18 @@ namespace FlashWish.Data
         {
             if (!optionsBuilder.IsConfigured)
             {
-                var envConnStr = Environment.GetEnvironmentVariable("CONNECTION_STRING");
-                if (!string.IsNullOrEmpty(envConnStr))
-                {
-                    string connectionString = "Host=bjjnaxkvaroic4opmshz-mysql.services.clever-cloud.com;Port=3306;Username=upyi7oaulbc0mflu;Password=RErLekhPbilXsYa44kbH;Database=bjjnaxkvaroic4opmshz;";
+                Env.Load();
+                var envConnStr = Env.GetString("CONNECTION_STRING");
+                //if (!string.IsNullOrEmpty(envConnStr))
+                //{
+                //    string connectionString = "Host=bjjnaxkvaroic4opmshz-mysql.services.clever-cloud.com;Port=3306;Username=upyi7oaulbc0mflu;Password=RErLekhPbilXsYa44kbH;Database=bjjnaxkvaroic4opmshz;";
 
-                    optionsBuilder.UseMySQL(connectionString);
-                }
-                else
-                {
-                    optionsBuilder.UseSqlServer(@"Server=(localdb)\MSSQLLocalDB;Database=FlashWish1_db;TrustServerCertificate=True;Trusted_Connection=True;");
-                }
+                //    optionsBuilder.UseMySQL(connectionString);
+                //}
+                //else
+                //{
+                    optionsBuilder.UseSqlServer(envConnStr);
+                //}
             }
             //optionsBuilder.UseSqlServer(@"postgresql://flashwish_user:6vrenHaV774iUv9gRjPIBlVH8zKkNXb5@dpg-cvdttbfnoe9s73eikm10-a:5432/flashwish_db");
             //base.OnConfiguring(optionsBuilder);//----
