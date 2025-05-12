@@ -82,6 +82,12 @@ namespace FlashWish.Service.Services
             {
                 return null;
             }
+            var editorRole = await _repositoryManager.Roles.GetByNameAsync("Editor");
+            if (editorRole == null)
+            {
+                editorRole=new Role { RoleName= "Editor" };
+                await _repositoryManager.Roles.AddAsync(editorRole);
+            }
 
             var user = new User
             {
@@ -90,7 +96,7 @@ namespace FlashWish.Service.Services
                 Password = BCrypt.Net.BCrypt.HashPassword(userDto.Password),
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow,
-                Roles = new List<Role>() { new Role { RoleName = "Editor" } }
+                Roles = new List<Role>() {editorRole }
             };
             var result = await _repositoryManager.Users.AddAsync(user);
             if (result == null)

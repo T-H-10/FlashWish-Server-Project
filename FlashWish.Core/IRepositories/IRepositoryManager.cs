@@ -10,6 +10,7 @@ namespace FlashWish.Core.IRepositories
     public interface IRepositoryManager
     {
         IUserRepository Users { get; }
+        IRoleRepository Roles { get; }
         ITemplateRepository Templates { get; }
         IRepository<GreetingMessage> GreetingMessages { get; }
         IRepository<GreetingCard> GreetingCards { get; }

@@ -11,6 +11,7 @@ namespace FlashWish.Data
     public class DataContext : DbContext
     {
         public DbSet<User> Users { get; set; }
+        public DbSet<Role> Roles { get; set; }
         public DbSet<Template> Templates { get; set; }
         public DbSet<GreetingCard> GreetingCards { get; set; }
         public DbSet<GreetingMessage> GreetingMessages { get; set; }

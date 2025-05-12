@@ -35,18 +35,14 @@ namespace FlashWish.Api
             services.AddScoped<IRepositoryManager, RepositoryManager>();
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped(typeof(IUserRepository), typeof(UserRepository));
+            services.AddScoped(typeof(IRoleRepository), typeof(RoleRepository));
             services.AddScoped(typeof(ITemplateRepository), typeof(TemplateRepository));
             services.AddScoped(typeof(ICategoryRepository),typeof(CategoryRepository));
 
             services.AddControllers();
             services.AddHttpClient();
             services.AddScoped<DataContext>();
-            //services.AddDbContext<DataContext>(options => options.UseSqlServer(connectionString), ServiceLifetime.Scoped);
             services.AddAutoMapper(typeof(MappingProfile), typeof(MappingPostProfile));
-            //services.AddDbContext<DataContext>(option =>
-            //{
-            //    option.UseSqlServer("Data Source = תהילה-הרשלר\\SQLEXPRESS; Inital Catalog = FlashWish1; Integrated Security = true; ");
-            //});
         }
 
     }
