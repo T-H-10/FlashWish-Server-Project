@@ -7,15 +7,17 @@ using Swashbuckle.AspNetCore.SwaggerUI;
 using FlashWish.Api;
 
 var builder = WebApplication.CreateBuilder(args);
+var MyAllowSpecificOrigins = "AllowSpecificOrigins";
+
 DotNetEnv.Env.Load();
 // Add services to the container.
 builder.Services.AddDependency();
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowSpecificOrigin",
+    options.AddPolicy(name: MyAllowSpecificOrigins,
         builder => builder
-        //.WithOrigins("http://localhost:5173","https://flashwish-client-users.onrender.com")
+        .WithOrigins("http://localhost:5173", "https://flashwish-client-users.onrender.com")
                           //.WithOrigins()
                           .AllowAnyOrigin()
                           .AllowAnyHeader()

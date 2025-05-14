@@ -28,11 +28,11 @@ namespace FlashWish.Data
                 //{
                 //    string connectionString = "Host=bjjnaxkvaroic4opmshz-mysql.services.clever-cloud.com;Port=3306;Username=upyi7oaulbc0mflu;Password=RErLekhPbilXsYa44kbH;Database=bjjnaxkvaroic4opmshz;";
 
-                //    optionsBuilder.UseMySQL(connectionString);
+                    optionsBuilder.UseMySQL(envConnStr);
                 //}
                 //else
                 //{
-                    optionsBuilder.UseSqlServer(envConnStr);
+                    //optionsBuilder.UseSqlServer(envConnStr);
                 //}
             }
             //optionsBuilder.UseSqlServer(@"postgresql://flashwish_user:6vrenHaV774iUv9gRjPIBlVH8zKkNXb5@dpg-cvdttbfnoe9s73eikm10-a:5432/flashwish_db");
