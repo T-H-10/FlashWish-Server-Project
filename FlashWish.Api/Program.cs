@@ -19,7 +19,7 @@ builder.Services.AddCors(options =>
         builder => builder
         .WithOrigins("http://localhost:5173", "https://flashwish-client-users.onrender.com")
                           //.WithOrigins()
-                          .AllowAnyOrigin()
+                          //.AllowAnyOrigin()
                           .AllowAnyHeader()
                           .AllowAnyMethod());
 });
@@ -92,7 +92,7 @@ app.UseExceptionHandler("/error"); // או
 //app.UseDeveloperExceptionPage(); // זמנית בסביבת פיתוח
 
 
-app.UseCors("AllowSpecificOrigin");
+app.UseCors(MyAllowSpecificOrigins);
 app.UseAuthentication();
 app.UseAuthorization();
 
