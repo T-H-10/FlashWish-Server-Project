@@ -1,4 +1,5 @@
 ﻿using FlashWish.Core.DTOs;
+using FlashWish.Core.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,8 @@ namespace FlashWish.Core.IServices
         Task<GreetingMessageDTO?> UpdateGreetingMessageAsync(int id, GreetingMessageDTO message);
         //Task<bool> DeleteGreetingMessageAsync(int id);
         Task<bool> MarkMessageForDeletionAsync(int id);
+
+        public Task<IActionResult> GenerateContentAsync(ContentRequest request);
 
     }
 }

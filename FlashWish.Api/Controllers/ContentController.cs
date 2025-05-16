@@ -1,4 +1,5 @@
-﻿using FlashWish.Core.Entities;
+﻿using DotNetEnv;
+using FlashWish.Core.Entities;
 using Microsoft.AspNetCore.Mvc;
 //using System.Web.Http;
 
@@ -11,7 +12,6 @@ namespace FlashWish.Api.Controllers
     public class ContentController : ControllerBase
     {
         private readonly HttpClient _httpClient;
-        private const string SERVER_URL = "http://localhost:5001/generate";
         public ContentController(IHttpClientFactory httpClientFactory)
         {
             _httpClient = httpClientFactory.CreateClient();
@@ -20,6 +20,9 @@ namespace FlashWish.Api.Controllers
         [HttpPost("generate")]
         public async Task<IActionResult> GenerateContent([FromBody] ContentRequest request)
         {
+            Env.Load();
+            var SERVER_URL = Env.GetString("SERVER_AI_URL");
+
             try
             {
                 Console.WriteLine($"""
