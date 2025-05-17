@@ -36,7 +36,7 @@ namespace FlashWish.Api.Controllers
         ----------------------------
         """);
 
-                var response = await _httpClient.PostAsJsonAsync(SERVER_URL, request);
+                var response = await _httpClient.PostAsJsonAsync(SERVER_URL+"/generate", request);
 
                 if (!response.IsSuccessStatusCode)
                 {
