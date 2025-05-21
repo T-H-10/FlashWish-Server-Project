@@ -88,7 +88,7 @@ namespace FlashWish.Api.Controllers
 
         // PUT api/<UsersController>/5
         [HttpPut("{id}")]
-        //[Authorize(Roles = "EditorOrAdmin")]
+        [Authorize(Policy = "EditorOrAdmin")]
         public async Task<ActionResult<UserDTO>> PutAsync(int id, [FromBody] UserPostModel user)
         {
             if (user == null)
@@ -96,12 +96,17 @@ namespace FlashWish.Api.Controllers
                 return BadRequest();//400
             }
             var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            //if (currentUserId != id.ToString() && !User.IsInRole("Admin"))
-            //{
-            //    return Forbid(); // 403 - אין הרשאה
-            //}
+            //Console.WriteLine(currentUserId);
+            //Console.WriteLine(id);
+            //Console.WriteLine(User.IsInRole("Admin"));
+            if (currentUserId != id.ToString() && !User.IsInRole("Admin"))
+            {
+                return Forbid(); // 403 - אין הרשאה
+            }
             var userDTO = _mapper.Map<UserDTO>(user);
             var updatedUser = await _userService.UpdateUserAsync(id, userDTO);
+            updatedUser.Id = id; // fix it!!!!----
+            //Console.WriteLine(updatedUser.Id + "<<-------------");
             if (updatedUser == null)
             {
                 return NotFound();//404

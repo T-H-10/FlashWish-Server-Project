@@ -51,18 +51,18 @@ namespace FlashWish.Api.Controllers
 
         // POST api/<GreetingMessagesController>
         [HttpPost]
-        //[Authorize(Roles = "EditorOrAdmin")]
+        [Authorize(Roles = "EditorOrAdmin")]
         public async Task<ActionResult<GreetingMessageDTO>> PostAsync([FromBody] GreetingMessagePostModel message)
         {
             if (message == null)
             {
                 return BadRequest();//400
             }
-            //var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            //if (currentUserId != message.UserID.ToString() && !User.IsInRole("Admin"))
-            //{
-            //    return Forbid(); // 403 - אין הרשאה
-            //}
+            var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (currentUserId != message.UserID.ToString() && !User.IsInRole("Admin"))
+            {
+                return Forbid(); // 403 - אין הרשאה
+            }
             var greetingDTO = _mapper.Map<GreetingMessageDTO>(message);
             var createdGreeting = await _greetingMessageService.AddGreetingMessageAsync(greetingDTO);
             if (greetingDTO == null)
@@ -74,7 +74,7 @@ namespace FlashWish.Api.Controllers
 
         // PUT api/<GreetingMessagesController>/5
         [HttpPut("{id}")]
-        [Authorize(Policy = "EditorOrAdmin")]
+        [Authorize(Roles = "EditorOrAdmin")]
         public async Task<ActionResult<GreetingMessageDTO>> PutAsync(int id, [FromBody] GreetingMessagePostModel message)
         {
             if (message == null)
@@ -82,10 +82,10 @@ namespace FlashWish.Api.Controllers
                 return BadRequest();//400
             }
             var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            //if (currentUserId != message.UserID.ToString() && !User.IsInRole("Admin"))
-            //{
-            //    return Forbid(); // 403
-            //}
+            if (currentUserId != message.UserID.ToString() && !User.IsInRole("Admin"))
+            {
+                return Forbid(); // 403
+            }
             var greetingDTO = _mapper.Map<GreetingMessageDTO>(message);
             var updatedGreeting = await _greetingMessageService.UpdateGreetingMessageAsync(id, greetingDTO);
             if (updatedGreeting == null)
@@ -100,11 +100,11 @@ namespace FlashWish.Api.Controllers
         [Authorize(Roles = "EditorOrAdmin")]
         public async Task<ActionResult> DeleteAsync(int id)
         {
-            //var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            //if (currentUserId != id.ToString() && !User.IsInRole("Admin"))
-            //{
-            //    return Forbid(); // 403 - אין הרשאה
-            //}
+            var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (currentUserId != id.ToString() && !User.IsInRole("Admin"))
+            {
+                return Forbid(); // 403 - אין הרשאה
+            }
             var isMarkedForDeletion = await _greetingMessageService.MarkMessageForDeletionAsync(id);
             //var isDeleted = await _greetingMessageService.DeleteGreetingMessageAsync(id);
             if (!isMarkedForDeletion)
