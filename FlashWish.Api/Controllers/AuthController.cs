@@ -22,6 +22,7 @@ namespace FlashWish.Api.Controllers
             _authService = authService;
             _mapper = mapper;
         }
+
         [HttpPost("login")]
         public async Task<ActionResult<LoginResultDTO>> LoginAsync([FromBody] LoginModel loginModel)
         {
@@ -54,8 +55,5 @@ namespace FlashWish.Api.Controllers
             return Ok(userRegistered);
         }
 
-        [Authorize(Roles = "Admin")]
-        [HttpGet("test")]
-        public IActionResult GetSomething() => Ok("Authorized as Admin");
     }
 }
