@@ -53,7 +53,7 @@ namespace FlashWish.Api.Controllers
         }
         // GET api/<GreetingCardsController>/5
         [HttpGet("{id}")]
-        //[Authorize(Roles = "EditorOrAdmin")]
+        [Authorize(Roles = "Admin,Editor")]
         public async Task<ActionResult<GreetingCardDTO>> GetAsync(int id)
         {
             var greetingCards = await _greetingCardService.GetGreetingCardByIdAsync(id);
@@ -66,7 +66,7 @@ namespace FlashWish.Api.Controllers
 
         // POST api/<GreetingCardsController>
         [HttpPost]
-        //[Authorize(Roles = "EditorOrAdmin")]
+        [Authorize(Roles = "Admin,Editor")]
         public async Task<ActionResult<GreetingCardDTO>> PostAsync([FromBody] GreetingCardPostModel greetingCard)
         {
             if (greetingCard == null)
@@ -86,7 +86,7 @@ namespace FlashWish.Api.Controllers
         }
         // PUT api/<GreetingCardsController>/5
         [HttpPut("{id}")]
-        //[Authorize(Roles = "EditorOrAdmin")]
+        [Authorize(Roles = "Admin,Editor")]
         public async Task<ActionResult<GreetingCardDTO>> PutAsync(int id, [FromBody] GreetingCardPostModel greetingCard)
         {
             if (greetingCard == null)
@@ -104,7 +104,7 @@ namespace FlashWish.Api.Controllers
 
         // DELETE api/<GreetingCardsController>/5
         [HttpDelete("{id}")]
-        //[Authorize(Roles = "EditorOrAdmin")]
+        [Authorize(Roles = "Admin,Editor")]
         public async Task<ActionResult> DeleteAsync(int id)
         {
             var isDeleted = await _greetingCardService.DeleteGreetingCardAsync(id);

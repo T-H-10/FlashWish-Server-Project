@@ -88,7 +88,7 @@ namespace FlashWish.Api.Controllers
 
         // PUT api/<UsersController>/5
         [HttpPut("{id}")]
-        [Authorize(Policy = "EditorOrAdmin")]
+        [Authorize(Roles = "Admin,Editor")]
         public async Task<ActionResult<UserDTO>> PutAsync(int id, [FromBody] UserPostModel user)
         {
             if (user == null)

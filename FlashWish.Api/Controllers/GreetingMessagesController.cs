@@ -21,6 +21,13 @@ namespace FlashWish.Api.Controllers
             _greetingMessageService = greetingMessageService;
             _mapper = mapper;
         }
+
+        [HttpGet("claims")]
+        public IActionResult GetClaims()
+        {
+            return Ok(User.Claims.Select(c => new { c.Type, c.Value }));
+        }
+
         // GET: api/<GreetingMessagesController>
         [HttpGet]
         public async Task<ActionResult<GreetingMessageDTO>> GetAsync()
@@ -59,10 +66,10 @@ namespace FlashWish.Api.Controllers
                 return BadRequest();//400
             }
             var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            if (currentUserId != message.UserID.ToString() && !User.IsInRole("Admin"))
-            {
-                return Forbid(); // 403 - אין הרשאה
-            }
+            //if (currentUserId != message.UserID.ToString() && !User.IsInRole("Admin"))
+            //{
+            //    return Forbid(); // 403 - אין הרשאה
+            //}
             var greetingDTO = _mapper.Map<GreetingMessageDTO>(message);
             var createdGreeting = await _greetingMessageService.AddGreetingMessageAsync(greetingDTO);
             if (greetingDTO == null)
@@ -73,8 +80,8 @@ namespace FlashWish.Api.Controllers
         }
 
         // PUT api/<GreetingMessagesController>/5
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
-        [Authorize(Roles = "EditorOrAdmin")]
         public async Task<ActionResult<GreetingMessageDTO>> PutAsync(int id, [FromBody] GreetingMessagePostModel message)
         {
             if (message == null)
@@ -97,11 +104,16 @@ namespace FlashWish.Api.Controllers
 
         // DELETE api/<GreetingMessagesController>/5
         [HttpDelete("{id}")]
-        [Authorize(Roles = "EditorOrAdmin")]
+        [Authorize(Roles = "Admin,Editor")]
         public async Task<ActionResult> DeleteAsync(int id)
         {
+            var greetingMessage = await _greetingMessageService.GetGreetingMessageByIdAsync(id);
+            if (greetingMessage == null)
+            {
+                return NotFound(); //404
+            }
             var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            if (currentUserId != id.ToString() && !User.IsInRole("Admin"))
+            if (currentUserId != greetingMessage.UserID.ToString() && !User.IsInRole("Admin"))
             {
                 return Forbid(); // 403 - אין הרשאה
             }

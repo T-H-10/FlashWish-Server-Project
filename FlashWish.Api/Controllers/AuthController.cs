@@ -2,6 +2,7 @@
 using FlashWish.Api.PostModels;
 using FlashWish.Core.DTOs;
 using FlashWish.Core.IServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -53,6 +54,8 @@ namespace FlashWish.Api.Controllers
             return Ok(userRegistered);
         }
 
-        
+        [Authorize(Roles = "Admin")]
+        [HttpGet("test")]
+        public IActionResult GetSomething() => Ok("Authorized as Admin");
     }
 }

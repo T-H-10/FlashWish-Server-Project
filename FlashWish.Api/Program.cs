@@ -69,7 +69,8 @@ builder.Services.AddAuthentication(
              ValidateIssuerSigningKey = true,
              ValidIssuer = builder.Configuration["JWT:Issuer"],
              ValidAudience = builder.Configuration["JWT:Audience"],
-             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"]))
+             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"])),
+              RoleClaimType = "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
          };
      });
 builder.Services.AddAuthorization(options =>

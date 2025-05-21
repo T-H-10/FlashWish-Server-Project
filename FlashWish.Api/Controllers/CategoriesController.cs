@@ -50,30 +50,30 @@ namespace FlashWish.Api.Controllers
         }
 
         // POST api/<categoriesController>
+        [Authorize(Roles = "Admin,Editor")]
         [HttpPost]
-        [Authorize(Policy = "EditorOrAdmin")]
         public async Task<ActionResult<CategoryDTO>> PostAsync([FromBody] CategoryPostModel category)
         {
-            if (category == null)
-            {
-                return BadRequest();//400
-            }
+            //if (category == null)
+            //{
+            //    return BadRequest();//400
+            //}
             var categoryDTO = _mapper.Map<CategoryDTO>(category);
             if (categoryDTO == null)
             {
-                return BadRequest();
+                return BadRequest(new {error = "Mapping failed: Invalid category model"});
             }
             var createdCategory = await _categoryService.AddCategoryAsync(categoryDTO);
             if (createdCategory == null)
             {
-                return BadRequest();//400
+                return Conflict(new { error = "Category already exists" });
             }
             return Ok(createdCategory);//200
         }
 
         // PUT api/<categoriesController>/5
         [HttpPut("{id}")]
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<CategoryDTO>> PutAsync(int id, [FromBody] CategoryPostModel category)
         {
             if (category == null)
@@ -91,7 +91,7 @@ namespace FlashWish.Api.Controllers
 
         // DELETE api/<categoriesController>/5
         [HttpDelete("{id}")]
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> Delete(int id)
         {
             var isDeleted = await _categoryService.DeleteCategoryAsync(id);
