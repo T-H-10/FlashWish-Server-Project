@@ -126,6 +126,7 @@ namespace FlashWish.Service.Services
             var cardsUsingTemplate = await _repositoryManager.GreetingCards.GetAllAsync(card => card.TemplateID == id);
             if(!cardsUsingTemplate.Any())
             {
+                Console.WriteLine(template.ImageURL);
                 // מחיקת התמונה מהענן
                 if (!string.IsNullOrEmpty(template.ImageURL))
                 {
