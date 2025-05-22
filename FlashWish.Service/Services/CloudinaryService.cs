@@ -23,9 +23,7 @@ namespace FlashWish.Service.Services
             {
                 Env.Load();
                 var fullImageURL = Env.GetString("CLOUD_URL_START") + imageUrl;
-                Console.WriteLine(fullImageURL);
                 var publicId = ExtractPublicIdFromUrl(fullImageURL);
-                Console.WriteLine(publicId);
                 var result = await _cloudinary.DestroyAsync(new DeletionParams(publicId));
                 return result.Result == "ok";
             }
