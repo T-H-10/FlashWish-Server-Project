@@ -1,5 +1,7 @@
 ﻿using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
+using DotNetEnv;
+using FlashWish.Core.Entities;
 using FlashWish.Core.IServices;
 using System;
 using System.Linq;
@@ -19,7 +21,9 @@ namespace FlashWish.Service.Services
         {
             try
             {
-                var publicId = ExtractPublicIdFromUrl(imageUrl);
+                Env.Load();
+                var fullImageURL = Env.GetString("CLOUD_URL_START") + imageUrl;
+                var publicId = ExtractPublicIdFromUrl(fullImageURL);
                 var result = await _cloudinary.DestroyAsync(new DeletionParams(publicId));
                 return result.Result == "ok";
             }
