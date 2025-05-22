@@ -23,13 +23,15 @@ namespace FlashWish.Service.Services
             {
                 Env.Load();
                 var fullImageURL = Env.GetString("CLOUD_URL_START") + imageUrl;
+                Console.WriteLine(fullImageURL);
                 var publicId = ExtractPublicIdFromUrl(fullImageURL);
+                Console.WriteLine(publicId);
                 var result = await _cloudinary.DestroyAsync(new DeletionParams(publicId));
                 return result.Result == "ok";
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error deleting image from Cloudinary: {ex.Message}");
+                Console.WriteLine($"--Error deleting image from Cloudinary: {ex.Message}");
                 return false;
             }
         }
