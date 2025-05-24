@@ -52,7 +52,7 @@ namespace FlashWish.Api.Controllers
 
         // POST api/<TemplatesController>
         [HttpPost]
-        [Authorize(Policy = "EditorOrAdmin")]
+        [Authorize(Roles = "Admin,Editor")]
         public async Task<ActionResult<TemplateDTO>> PostAsync([FromForm] TemplatePostModel template)
         {
             if (template == null || template.ImageFile == null || template.ImageFile.Length <= 0)
