@@ -58,7 +58,7 @@ namespace FlashWish.Api.Controllers
 
         // POST api/<GreetingMessagesController>
         [HttpPost]
-        [Authorize(Roles = "EditorOrAdmin")]
+        [Authorize(Policy = "EditorOrAdmin")]
         public async Task<ActionResult<GreetingMessageDTO>> PostAsync([FromBody] GreetingMessagePostModel message)
         {
             if (message == null)

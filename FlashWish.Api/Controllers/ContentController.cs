@@ -1,5 +1,6 @@
 ﻿using DotNetEnv;
 using FlashWish.Core.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 //using System.Web.Http;
 
@@ -18,6 +19,7 @@ namespace FlashWish.Api.Controllers
         }
 
         [HttpPost("generate")]
+        [Authorize(Policy = "EditorOrAdmin")]
         public async Task<IActionResult> GenerateContent([FromBody] ContentRequest request)
         {
             Env.Load();
