@@ -38,6 +38,19 @@ namespace FlashWish.Api.Controllers
         ----------------------------
         """);
 
+
+                // ===== Wake up Flask server =====
+                try
+                {
+                    var wakeupResponse = await _httpClient.GetAsync(SERVER_URL + "/");
+                    Console.WriteLine($"Wake-up response: {wakeupResponse.StatusCode}");
+                    await Task.Delay(3000); 
+                }
+                catch (Exception wakeupEx)
+                {
+                    Console.WriteLine("Warning: Failed to wake up server. Trying POST anyway.");
+                }
+
                 var response = await _httpClient.PostAsJsonAsync(SERVER_URL+"/generate", request);
                 Console.WriteLine(response.Content.ToString());
                 if (!response.IsSuccessStatusCode)
